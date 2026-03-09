@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Planeta Auto — Ремонт и контрактные двигатели</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a href="#hero" class="header__logo">
+        <img src="assets/logo.png" alt="Planeta Auto" class="header__logo-img" />
+      </a>
+
+      <nav class="nav" id="mainNav">
+        <button type="button" class="nav__close" aria-label="Закрыть меню" id="navClose">
+          <img src="assets/FrameCross.png" alt="" width="24" height="24" />
+        </button>
+        <ul class="nav__list">
+          <li class="nav__item"><a href="#directions" class="nav__link">О нас</a></li>
+          <li class="nav__item"><a href="#marks" class="nav__link">Маркировки</a></li>
+          <li class="nav__item"><a href="#services" class="nav__link">Преимущества</a></li>
+          <li class="nav__item"><a href="#contacts" class="nav__link">Контакты</a></li>
+        </ul>
+        <div class="nav__social">
+          <a href="#" class="nav__social-link">Instagram</a>
+          <a href="#" class="nav__social-link">WhatsApp</a>
+        </div>
+      </nav>
+
+      <a href="#consult" class="btn btn--outline header__cta">Подобрать деталь</a>
+      <button class="burger" aria-label="Открыть меню">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="hero">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <h1 class="hero__title">
+            <span class="hero__title-desktop">Ремонт, контрактные<br>двигатели и запчасти<br>в одном месте</span>
+            <span class="hero__title-mobile">Контрактные двигатели и коробки передач с гарантией</span>
+          </h1>
+          <p class="hero__subtitle">
+            <span class="hero__subtitle-desktop">Подберём, поставим и установим —<br>без посредников</span>
+            <span class="hero__subtitle-mobile">Подберём и доставим агрегат<br>под ваш автомобиль</span>
+          </p>
+
+          <div class="hero__actions">
+            <a href="#consult" class="btn btn--primary hero__primary-btn">Подобрать двигатель</a>
+          </div>
+
+          <ul class="hero__benefits">
+            <li class="hero__benefit">
+              <span class="hero__benefit-icon hero__benefit-icon--settings"></span>
+              <span class="hero__benefit-label">Б/У агрегаты</span>
+            </li>
+            <li class="hero__benefit">
+              <span class="hero__benefit-icon hero__benefit-icon--target"></span>
+              <span class="hero__benefit-label">Точный подбор</span>
+            </li>
+            <li class="hero__benefit">
+              <span class="hero__benefit-icon hero__benefit-icon--shield"></span>
+              <span class="hero__benefit-label">Гарантия</span>
+            </li>
+            <li class="hero__benefit">
+              <span class="hero__benefit-icon hero__benefit-icon--delivery"></span>
+              <span class="hero__benefit-label">Доставка по РФ</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="hero__media">
+          <div class="hero__image">
+            <img src="assets/imgbmw.png" alt="BMW" class="hero__img" width="706" height="596" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="directions">
+      <div class="container">
+        <h2 class="section__title">Наши направления</h2>
+
+        <div class="cards cards--wide">
+          <article class="card card--image-top">
+            <div class="card__image card__image--dir1"></div>
+            <div class="card__body">
+              <h3 class="card__title">Автосервис</h3>
+              <p class="card__text">
+                Диагностика, ремонт и обслуживание автомобилей любой сложности с гарантией
+              </p>
+            </div>
+          </article>
+
+          <article class="card card--image-top">
+            <div class="card__image card__image--dir2"></div>
+            <div class="card__body">
+              <h3 class="card__title">Контрактные агрегаты</h3>
+              <p class="card__text">
+                Подбор и продажа двигателей, КПП<br class="directions-break-desktop">и крупных узлов
+              </p>
+            </div>
+          </article>
+
+          <article class="card card--image-top">
+            <div class="card__image card__image--dir3"></div>
+            <div class="card__body">
+              <h3 class="card__title">Поставка запчастей</h3>
+              <p class="card__text">
+                Оригинальные детали и проверенные аналоги для вашего автомобиля
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--dark" id="marks">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title section__title--light">Работаем с маркировками</h2>
+          <div class="section__filters">
+            <div class="marks-filter--desktop">
+              <div class="filter-dropdown filter-dropdown--maker-pc" data-filter="maker-pc">
+                <button type="button" class="filter-dropdown__button" id="marksFilterMakerPc">
+                  <span class="filter-dropdown__text">Производитель</span>
+                  <span class="filter-dropdown__icon"></span>
+                </button>
+                <div class="filter-dropdown__list" id="marksMakerListPc"></div>
+              </div>
+              <div class="filter-dropdown filter-dropdown--brand-pc" data-filter="brand-pc">
+                <button type="button" class="filter-dropdown__button" id="marksFilterBrandPc" disabled>
+                  <span class="filter-dropdown__text">Марка</span>
+                  <span class="filter-dropdown__icon"></span>
+                </button>
+                <div class="filter-dropdown__list" id="marksBrandListPc"></div>
+              </div>
+            </div>
+            <div class="marks-filter--combined">
+              <div class="filter-dropdown filter-dropdown--combined" data-filter="maker-brand">
+                <button type="button" class="filter-dropdown__button" id="marksFilterBtn">
+                  <span class="filter-dropdown__text">Производитель и марка</span>
+                  <span class="filter-dropdown__icon"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cards cards--marks cards--marks--collapsed" id="marksCardsContainer">
+          <article class="card card--mark" data-popularity="1" data-maker="nissan">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">BKS</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" id="mark-card-2" data-popularity="4" data-maker="nissan">
+            <div class="card__image card__image--mark" id="mark-card-gallery" data-slides="assets/mark.png" data-gallery="assets/FrameMain1.png,assets/FrameCar.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">BPE</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="7" data-maker="great-wall" data-brand="tank">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">AXE</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="10" data-maker="">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">CAS</h3>
+              <p class="card__text card__text--muted">Цена по запросу</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="2" data-maker="great-wall" data-brand="haval">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">BKS</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="5" data-maker="great-wall" data-brand="tank">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">BPE</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="8" data-maker="mazda">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">AXE</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="11" data-maker="mazda">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">CAS</h3>
+              <p class="card__text card__text--muted">Цена по запросу</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="3" data-maker="great-wall" data-brand="tank">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">BKS</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="6" data-maker="nissan">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">BPE</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="9" data-maker="mazda">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">AXE</h3>
+              <p class="card__text card__text--muted">От 250 000</p>
+            </div>
+          </article>
+
+          <article class="card card--mark" data-popularity="12" data-maker="">
+            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+              <div class="mark-slider"></div>
+            </div>
+            <div class="card__body">
+              <h3 class="card__title card__title--light">CAS</h3>
+              <p class="card__text card__text--muted">Цена по запросу</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="marks-show-all-wrapper" id="marksShowAllWrapper" hidden>
+          <a href="#" class="marks-show-all" id="marksShowAllLink">Показать все</a>
+        </div>
+
+        <div class="section__cta">
+          <a href="#consult" class="btn btn--primary hero__primary-btn">Подобрать двигатель</a>
+        </div>
+      </div>
+    </section>
+
+    <div class="filter-panel-overlay" id="filterPanelOverlay" aria-hidden="true">
+      <div class="filter-panel" id="filterPanel">
+        <header class="filter-panel__header">
+          <button type="button" class="filter-panel__close" aria-label="Закрыть" id="filterPanelClose">
+            <img src="assets/FrameCross.png" alt="" width="24" height="24" />
+          </button>
+          <h3 class="filter-panel__title">Производитель и марка</h3>
+          <span class="filter-panel__header-spacer"></span>
+        </header>
+        <div class="filter-panel__fields">
+          <button type="button" class="filter-panel__field filter-panel__field--maker" id="filterPanelMaker">
+            <span class="filter-panel__field-text">Производитель</span>
+            <span class="filter-panel__field-icon"></span>
+          </button>
+          <button type="button" class="filter-panel__field filter-panel__field--brand" id="filterPanelBrand" disabled>
+            <span class="filter-panel__field-text">Марка</span>
+            <span class="filter-panel__field-icon"></span>
+          </button>
+        </div>
+        <div class="filter-panel__content"></div>
+        <div class="filter-panel__actions">
+          <button type="button" class="filter-panel__btn filter-panel__btn--primary" id="filterPanelShow">Показать</button>
+          <button type="button" class="filter-panel__btn filter-panel__btn--secondary" id="filterPanelReset">Сбросить</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="maker-picker-overlay" id="makerPickerOverlay" aria-hidden="true">
+      <div class="maker-picker">
+        <header class="maker-picker__header">
+          <button type="button" class="maker-picker__back" aria-label="Назад" id="makerPickerBack">
+            <span class="maker-picker__back-icon">
+              <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M7 7L0 12L7 17M0 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <h3 class="maker-picker__title">Производитель</h3>
+          <span class="maker-picker__header-spacer"></span>
+        </header>
+        <div class="maker-picker__list" id="makerPickerList"></div>
+        <div class="maker-picker__actions">
+          <button type="button" class="maker-picker__apply" id="makerPickerApply">Применить</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="maker-picker-overlay" id="brandPickerOverlay" aria-hidden="true">
+      <div class="maker-picker brand-picker">
+        <header class="maker-picker__header">
+          <button type="button" class="maker-picker__back" aria-label="Назад" id="brandPickerBack">
+            <span class="maker-picker__back-icon">
+              <svg width="28" height="24" viewBox="0 0 28 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M7 7L0 12L7 17M0 12H16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </button>
+          <h3 class="maker-picker__title">Марка</h3>
+          <span class="maker-picker__header-spacer"></span>
+        </header>
+        <div class="maker-picker__list" id="brandPickerList"></div>
+        <div class="maker-picker__actions">
+          <button type="button" class="maker-picker__apply brand-picker__apply" id="brandPickerApply">Применить</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="lightbox card-modal" id="lightbox" aria-hidden="true">
+      <div class="lightbox__backdrop"></div>
+      <div class="lightbox__panel card-modal__panel">
+        <button type="button" class="card-modal__close" aria-label="Закрыть">
+          <img src="assets/FrameCross.png" alt="" width="48" height="48" />
+        </button>
+        <div class="card-modal__thumbnails" id="cardModalThumbnails"></div>
+        <div class="card-modal__main">
+          <img src="" alt="Просмотр двигателя" class="card-modal__image" id="cardModalMainImage" />
+        </div>
+      </div>
+    </div>
+
+    <section class="section" id="services">
+      <div class="container">
+        <h2 class="section__title section__title--services-desktop">Почему выбирают нас</h2>
+        <h2 class="section__title section__title--services-mobile">Почему выбирают наш автосервис</h2>
+
+        <div class="grid why">
+          <div class="why__main card card--white">
+            <div class="card__body">
+              <h3 class="card__title">Подбор по VIN без ошибок</h3>
+            </div>
+            <div class="card__image card__image--why-main"></div>
+          </div>
+
+          <div class="why__side">
+            <div class="why__item card card--white why__item--service">
+              <div class="card__body">
+                <h3 class="card__title">Установка в нашем<br>сервисе</h3>
+              </div>
+              <div class="card__image card__image--why1"></div>
+              <img src="assets/FrameCar.png" alt="" class="card__frame" />
+            </div>
+
+            <div class="why__item card card--white why__item--experience">
+              <div class="card__body">
+                <h3 class="card__title">5+ лет опыта работы</h3>
+              </div>
+              <div class="card__image card__image--why2"></div>
+              <img src="assets/FrameMan.png" alt="" class="card__frame card__frame--man" />
+            </div>
+
+            <div class="why__item card card--white why__item--delivery">
+              <div class="card__body">
+                <h3 class="card__title">Доставка по всей<br>России</h3>
+              </div>
+              <div class="card__image card__image--why3"></div>
+              <img src="assets/FrameFurgon.png" alt="" class="card__frame card__frame--furgon" />
+            </div>
+
+            <div class="why__item card card--white why__item--guarantee">
+              <div class="card__body">
+                <h3 class="card__title">Гарантия на агрегаты</h3>
+              </div>
+              <div class="card__image card__image--why4"></div>
+              <img src="assets/FrameKoleso.png" alt="" class="card__frame card__frame--koleso" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--soft" id="contacts">
+      <div class="container contacts">
+        <div class="contacts__info">
+          <h2 class="section__title">Контакты</h2>
+          <p class="contacts__text">
+            Позвоните или оставьте заявку — подберём агрегат<br>
+            <span class="contacts__text-line">и проконсультируем.</span>
+          </p>
+
+          <div class="contacts__grid">
+            <div class="contacts__row contacts__row--people">
+              <div class="contacts__person">
+                <div class="contacts__label">Алексей</div>
+                <a href="tel:+79867634702" class="contacts__value">+7 986 763‑47‑02</a>
+              </div>
+              <div class="contacts__person">
+                <div class="contacts__label">Александр</div>
+                <a href="tel:+79063587422" class="contacts__value">+7 906 358‑74‑22</a>
+              </div>
+            </div>
+
+            <div class="contacts__row contacts__row--address">
+              <div class="contacts__cell-label">Адрес</div>
+              <div class="contacts__cell-value">
+                Посёлок Культура, рядом с СТЦ «Мега»
+              </div>
+            </div>
+
+            <div class="contacts__row contacts__row--socials">
+              <div class="contacts__cell-label">Социальные сети</div>
+              <div class="contacts__cell-value contacts__socials">
+                <a href="#" class="contacts__social-link">Instagram</a>
+                <a href="#" class="contacts__social-link">WhatsApp</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contacts__form-wrapper" id="consult">
+          <h3 class="contacts__form-title">Заявка на консультацию</h3>
+          <form class="form" id="consultForm">
+            <div class="form__field form__field--contacts">
+              <label for="name">Ваше имя</label>
+              <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Ваше имя"
+                required
+              />
+            </div>
+            <div class="form__field form__field--contacts">
+              <label for="phone">Номер телефона</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Номер телефона"
+                required
+              />
+            </div>
+
+            <div class="form__checkbox">
+              <input type="checkbox" id="consultFormCheckbox" required />
+              <span>Соглашаюсь с обработкой персональных данных</span>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full contacts__submit">
+              <span class="contacts__submit-text-desktop">Перезвоните мне</span>
+              <span class="contacts__submit-text-mobile">Оставить заявку</span>
+            </button>
+
+            <p class="form__note form__note--contacts form__note--contacts-desktop">
+              <span class="form__note-line form__note-line--first">Отправляя заявку, вы принимаете условия публичной оферты и подтверждаете</span>
+              <span class="form__note-line">согласие с политикой обработки персональных данных.</span>
+            </p>
+            <p class="form__note form__note--contacts form__note--contacts-mobile">
+              Отправляя заявку, вы соглашаетесь с офертой и политикой обработки данных.
+            </p>
+
+            <p class="form__success" id="formSuccess" hidden>
+              Заявка отправлена! Мы свяжемся с вами в ближайшее время.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <div class="header__logo footer__logo">
+            <img src="assets/logo.png" alt="Planeta Auto" class="header__logo-img" />
+          </div>
+        </div>
+
+        <nav class="footer__nav">
+          <a href="#directions" class="footer__link">
+            <span class="footer__link-text--desktop">Направления</span>
+            <span class="footer__link-text--mobile">Направления</span>
+          </a>
+          <a href="#marks" class="footer__link">Маркировки</a>
+          <a href="#services" class="footer__link">Преимущества</a>
+          <a href="#contacts" class="footer__link">Контакты</a>
+        </nav>
+      </div>
+
+      <div class="footer__line"></div>
+      <div class="footer__bottom">
+        <p class="footer__legal">© 2026&nbsp;PLANETA-AUTO</p>
+        <div class="footer__legal-links">
+          <a href="#" class="footer__legal-link"><span class="footer__legal-link-text--desktop">Конфиденциальности</span><span class="footer__legal-link-text--mobile">Конфиденциальности</span></a>
+          <a href="#" class="footer__legal-link">Публичная оферта</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <div class="consult-modal" id="consultModal" aria-hidden="true">
+    <div class="consult-modal__backdrop"></div>
+    <div class="consult-modal__dialog" role="dialog" aria-labelledby="consultModalTitle">
+      <button type="button" class="consult-modal__close" aria-label="Закрыть">&times;</button>
+      <h3 class="consult-modal__title" id="consultModalTitle">Заявка на консультацию</h3>
+      <form class="form consult-modal__form" id="consultModalForm">
+        <div class="form__field form__field--contacts">
+          <label for="consultName">Ваше имя</label>
+          <input type="text" id="consultName" name="name" placeholder="Ваше имя" required />
+        </div>
+        <div class="form__field form__field--contacts">
+          <label for="consultPhone">Номер телефона</label>
+          <input type="tel" id="consultPhone" name="phone" placeholder="Номер телефона" required autocomplete="tel" />
+        </div>
+        <div class="form__checkbox">
+          <input type="checkbox" id="consultModalCheckbox" required />
+          <span>Соглашаюсь с обработкой персональных данных</span>
+        </div>
+        <button type="submit" class="btn btn--primary btn--full contacts__submit consult-modal__submit">
+          Перезвоните мне
+        </button>
+        <p class="form__note form__note--contacts consult-modal__note">
+          <span class="form__note-line form__note-line--first">Отправляя заявку, вы принимаете условия публичной оферты и подтверждаете</span>
+          <span class="form__note-line">согласие с политикой обработки персональных данных.</span>
+        </p>
+        <p class="form__success consult-modal__success" id="consultModalSuccess" hidden>
+          Заявка отправлена! Мы свяжемся с вами в ближайшее время.
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

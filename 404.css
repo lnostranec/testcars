@@ -1,0 +1,70 @@
+.page-404 {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  background-color: #13181e;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-404__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 40px 20px;
+  gap: 32px;
+}
+
+.page-404__image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.page-404__text {
+  width: 312px;
+  min-height: 40px;
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: #ffffff;
+  opacity: 0.8;
+}
+
+.page-404__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 10px;
+  box-sizing: border-box;
+  min-width: 209px;
+  min-height: 56px;
+  padding: 16px 28px;
+  border-radius: 8px;
+  background-color: #184fb9;
+  color: #ffffff;
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 18px;
+  line-height: 24px;
+  letter-spacing: 0;
+  text-decoration: none;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.page-404__btn:hover {
+  background-color: #1a5ad4;
+}
+
+.page-404__btn:active {
+  opacity: 0.9;
+}

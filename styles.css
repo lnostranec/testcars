@@ -1484,6 +1484,23 @@ button {
   display: block;
 }
 
+.card-modal__counter,
+.card-modal__mobile-slider {
+  display: none;
+}
+
+.card-modal__mobile-slider-segment {
+  width: 28px;
+  height: 2px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.card-modal__mobile-slider-segment.is-active {
+  background: #ffffff;
+  height: 3px;
+}
+
 .grid.why {
   display: grid;
   grid-template-columns: 622px 622px;
@@ -2515,6 +2532,101 @@ button {
     gap: 12px;
   }
 
+  .card-modal__panel {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100vh;
+    max-height: 100vh;
+    padding: 52px 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent;
+    border-radius: 0;
+    box-shadow: none;
+    overflow: hidden;
+  }
+
+  .card-modal__close {
+    top: 63px;
+    left: 8px;
+    right: auto;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+  }
+
+  .card-modal__close img {
+    display: none;
+  }
+
+  .card-modal__close::before {
+    content: "←";
+    font-size: 28px;
+    line-height: 1;
+  }
+
+  .card-modal__thumbnails {
+    display: none;
+  }
+
+  .card-modal__main {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .card-modal__counter {
+    display: block;
+    position: absolute;
+    top: 72px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0;
+    color: rgba(255, 255, 255, 0.9);
+    text-align: center;
+  }
+
+  .card-modal__image {
+    width: 100%;
+    height: auto;
+    max-height: 64vh;
+    object-fit: contain;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .card-modal__mobile-slider {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .card-modal__mobile-slider-segment {
+    flex: 1 1 0;
+    width: auto;
+    height: 2px;
+  }
+
+  .card-modal__mobile-slider-segment.is-active {
+    height: 3px;
+  }
+
   #marks .card--mark {
     width: 167px;
     height: 168px;
@@ -2678,8 +2790,10 @@ button {
   .consult-modal__dialog {
     width: 100%;
     height: auto;
-    min-height: 320px;
-    padding: 24px 20px;
+    min-height: 290px;
+    max-width: calc(100vw - 20px);
+    margin: 10px;
+    padding: 24px 16px 4px;
   }
 
   .footer {
@@ -2857,6 +2971,14 @@ button {
   margin-top: 0;
 }
 
+.consult-modal__submit-text--desktop {
+  display: inline;
+}
+
+.consult-modal__submit-text--mobile {
+  display: none;
+}
+
 @media (min-width: 769px) {
   .consult-modal__submit:not(.contacts__submit--valid):hover {
     background-color: #d1d5db;
@@ -2873,6 +2995,79 @@ button {
   margin-top: 8px;
   margin-bottom: 0;
   text-align: left;
+}
+
+.consult-modal__note-text--desktop {
+  display: block;
+}
+
+.consult-modal__note-text--mobile {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .consult-modal__dialog {
+    height: auto !important;
+    min-height: 300px !important;
+    padding: 24px 16px 24px;
+  }
+
+  .consult-modal__form {
+    gap: 12px;
+  }
+
+  .consult-modal__title {
+    display: none;
+  }
+
+  .consult-modal__close {
+    display: none;
+  }
+
+  .consult-modal__submit-text--desktop {
+    display: none;
+  }
+
+  .consult-modal__submit-text--mobile {
+    display: inline;
+  }
+
+  .consult-modal__note {
+    margin-top: 5px;
+    margin-bottom: 0;
+  }
+
+  .consult-modal__form .form__field--contacts input {
+    width: 100%;
+    margin: 0;
+    border: 1px solid #E5E7EB;
+  }
+
+  .consult-modal__form .form__field--contacts input:focus {
+    border: 1px solid #E5E7EB;
+    box-shadow: none;
+  }
+
+  .consult-modal__submit {
+    width: 100%;
+  }
+
+  .consult-modal__form .form__checkbox span {
+    font-family: Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0;
+    color: rgba(128, 128, 128, 0.55);
+  }
+
+  .consult-modal__note-text--desktop {
+    display: none;
+  }
+
+  .consult-modal__note-text--mobile {
+    display: block;
+  }
 }
 
 .consult-modal__success {

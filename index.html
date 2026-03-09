@@ -16,7 +16,7 @@
   <header class="header">
     <div class="container header__inner">
       <a href="#hero" class="header__logo">
-        <img src="assets/logo.png" alt="Planeta Auto" class="header__logo-img" />
+        <img src="assets/Logo.png" alt="Planeta Auto" class="header__logo-img" />
       </a>
 
       <nav class="nav" id="mainNav">
@@ -366,7 +366,9 @@
         </button>
         <div class="card-modal__thumbnails" id="cardModalThumbnails"></div>
         <div class="card-modal__main">
+          <div class="card-modal__counter" id="cardModalCounter"></div>
           <img src="" alt="Просмотр двигателя" class="card-modal__image" id="cardModalMainImage" />
+          <div class="card-modal__mobile-slider" id="cardModalMobileSlider"></div>
         </div>
       </div>
     </div>
@@ -515,7 +517,7 @@
       <div class="footer__inner">
         <div class="footer__left">
           <div class="header__logo footer__logo">
-            <img src="assets/logo.png" alt="Planeta Auto" class="header__logo-img" />
+            <img src="assets/Logo.png" alt="Planeta Auto" class="header__logo-img" />
           </div>
         </div>
 
@@ -560,11 +562,15 @@
           <span>Соглашаюсь с обработкой персональных данных</span>
         </div>
         <button type="submit" class="btn btn--primary btn--full contacts__submit consult-modal__submit">
-          Перезвоните мне
+          <span class="consult-modal__submit-text--desktop">Перезвоните мне</span>
+          <span class="consult-modal__submit-text--mobile">Оставить заявку</span>
         </button>
         <p class="form__note form__note--contacts consult-modal__note">
-          <span class="form__note-line form__note-line--first">Отправляя заявку, вы принимаете условия публичной оферты и подтверждаете</span>
-          <span class="form__note-line">согласие с политикой обработки персональных данных.</span>
+          <span class="consult-modal__note-text--desktop">
+            <span class="form__note-line form__note-line--first">Отправляя заявку, вы принимаете условия публичной оферты и подтверждаете</span>
+            <span class="form__note-line">согласие с политикой обработки персональных данных.</span>
+          </span>
+          <span class="consult-modal__note-text--mobile">Отправляя заявку, вы соглашаетесь с офертой и политикой обработки данных.</span>
         </p>
         <p class="form__success consult-modal__success" id="consultModalSuccess" hidden>
           Заявка отправлена! Мы свяжемся с вами в ближайшее время.

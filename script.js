@@ -307,6 +307,63 @@ const lightbox = document.getElementById("lightbox");
 const cardModalThumbnails = document.getElementById("cardModalThumbnails");
 const cardModalMainImage = document.getElementById("cardModalMainImage");
 const cardModalClose = document.querySelector(".card-modal__close");
+const cardModalCounter = document.getElementById("cardModalCounter");
+const cardModalMobileSlider = document.getElementById("cardModalMobileSlider");
+
+let cardModalGallery = [];
+let cardModalIndex = 0;
+let cardModalTouchStartX = null;
+
+function renderCardModalMobileSlider(total, activeIndex) {
+  if (!cardModalMobileSlider) return;
+  cardModalMobileSlider.innerHTML = "";
+  const segmentsCount = Math.max(1, total);
+  const safeIndex = Math.max(0, Math.min(activeIndex, segmentsCount - 1));
+  for (let i = 0; i < segmentsCount; i++) {
+    const seg = document.createElement("div");
+    seg.className = "card-modal__mobile-slider-segment" + (i === safeIndex ? " is-active" : "");
+    if (total > 1) {
+      seg.addEventListener("click", () => setCardModalSlide(i));
+    }
+    cardModalMobileSlider.appendChild(seg);
+  }
+}
+
+function setCardModalSlide(index) {
+  if (!cardModalMainImage || !cardModalGallery.length) return;
+  cardModalIndex = Math.max(0, Math.min(index, cardModalGallery.length - 1));
+  cardModalMainImage.src = cardModalGallery[cardModalIndex];
+  if (cardModalCounter) {
+    cardModalCounter.textContent = `${cardModalIndex + 1} из ${cardModalGallery.length}`;
+  }
+  if (cardModalThumbnails) {
+    cardModalThumbnails.querySelectorAll(".card-modal__thumb-btn").forEach((b, i) => {
+      b.classList.toggle("is-active", i === cardModalIndex);
+    });
+  }
+  renderCardModalMobileSlider(cardModalGallery.length, cardModalIndex);
+}
+
+function openCardModal(gallery, initialIndex = 0) {
+  if (!lightbox || !cardModalMainImage || !cardModalThumbnails || !gallery.length) return;
+  cardModalGallery = gallery.slice();
+  cardModalThumbnails.innerHTML = "";
+  cardModalGallery.forEach((src, i) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "card-modal__thumb-btn" + (i === initialIndex ? " is-active" : "");
+    btn.setAttribute("data-index", String(i));
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "Фото " + (i + 1);
+    btn.appendChild(img);
+    btn.addEventListener("click", () => setCardModalSlide(i));
+    cardModalThumbnails.appendChild(btn);
+  });
+  setCardModalSlide(initialIndex);
+  lightbox.setAttribute("aria-hidden", "false");
+  lightbox.classList.add("lightbox--open");
+}
 
 markImages.forEach((imageEl) => {
   const slidesAttr = imageEl.getAttribute("data-slides");
@@ -363,37 +420,14 @@ markImages.forEach((imageEl) => {
     if (imageEl._markSliderSetActive) imageEl._markSliderSetActive(0);
   });
 
-  if (imageEl.id === "mark-card-gallery") {
-    imageEl.addEventListener("click", (e) => {
-      e.preventDefault();
-      const galleryAttr = imageEl.getAttribute("data-gallery");
-      const galleryFromAttr = galleryAttr ? galleryAttr.split(",").map((s) => s.trim()) : [];
-      const gallery = slides.length ? [slides[0], ...galleryFromAttr] : galleryFromAttr;
-      if (!gallery.length || !lightbox || !cardModalThumbnails || !cardModalMainImage) return;
-
-      cardModalThumbnails.innerHTML = "";
-      gallery.forEach((src, i) => {
-        const btn = document.createElement("button");
-        btn.type = "button";
-        btn.className = "card-modal__thumb-btn" + (i === 0 ? " is-active" : "");
-        btn.setAttribute("data-index", String(i));
-        const img = document.createElement("img");
-        img.src = src;
-        img.alt = "Фото " + (i + 1);
-        btn.appendChild(img);
-        btn.addEventListener("click", () => {
-          cardModalMainImage.src = src;
-          cardModalThumbnails.querySelectorAll(".card-modal__thumb-btn").forEach((b) => b.classList.remove("is-active"));
-          btn.classList.add("is-active");
-        });
-        cardModalThumbnails.appendChild(btn);
-      });
-
-      cardModalMainImage.src = gallery[0];
-      lightbox.setAttribute("aria-hidden", "false");
-      lightbox.classList.add("lightbox--open");
-    });
-  }
+  imageEl.addEventListener("click", (e) => {
+    e.preventDefault();
+    const galleryAttr = imageEl.getAttribute("data-gallery");
+    const galleryFromAttr = galleryAttr ? galleryAttr.split(",").map((s) => s.trim()) : [];
+    const gallery = slides.length ? [slides[0], ...galleryFromAttr] : galleryFromAttr;
+    if (!gallery.length) return;
+    openCardModal(gallery, 0);
+  });
 });
 
 function closeCardModal() {
@@ -401,6 +435,11 @@ function closeCardModal() {
     lightbox.classList.remove("lightbox--open");
     lightbox.setAttribute("aria-hidden", "true");
   }
+  cardModalGallery = [];
+  cardModalIndex = 0;
+  if (cardModalThumbnails) cardModalThumbnails.innerHTML = "";
+  if (cardModalMobileSlider) cardModalMobileSlider.innerHTML = "";
+  if (cardModalCounter) cardModalCounter.textContent = "";
 }
 
 if (lightbox) {
@@ -411,6 +450,28 @@ if (lightbox) {
 if (cardModalClose) {
   cardModalClose.addEventListener("click", closeCardModal);
 }
+
+if (cardModalMainImage) {
+  cardModalMainImage.addEventListener("touchstart", (e) => {
+    if (!cardModalGallery.length) return;
+    cardModalTouchStartX = e.touches[0]?.clientX ?? null;
+  }, { passive: true });
+
+  cardModalMainImage.addEventListener("touchend", (e) => {
+    if (cardModalTouchStartX === null || cardModalGallery.length <= 1) return;
+    const touchEndX = e.changedTouches[0]?.clientX ?? cardModalTouchStartX;
+    const deltaX = touchEndX - cardModalTouchStartX;
+    cardModalTouchStartX = null;
+    const SWIPE_THRESHOLD = 30;
+    if (Math.abs(deltaX) < SWIPE_THRESHOLD) return;
+    if (deltaX < 0) {
+      setCardModalSlide(cardModalIndex + 1);
+    } else {
+      setCardModalSlide(cardModalIndex - 1);
+    }
+  }, { passive: true });
+}
+
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape" && lightbox?.classList.contains("lightbox--open")) closeCardModal();
 });

@@ -624,7 +624,14 @@ button {
     font-size: 40px;
     line-height: 100%;
     letter-spacing: 0;
-    margin-top: -10px;
+    margin-top: 30px;
+    margin-bottom: 82px;
+  }
+  #directions .cards--wide .card:nth-child(2) {
+    transform: translateX(4px);
+  }
+  #directions .cards--wide .card:nth-child(3) {
+    transform: translateX(8px);
   }
   #services .section__title {
     margin-top: 30px;
@@ -641,7 +648,7 @@ button {
     justify-content: space-between;
   }
   #marks .section__title {
-    margin-top: 0;
+    margin-top: -30px;
   }
   #marks .filter-dropdown--maker-pc .filter-dropdown__text,
   #marks .filter-dropdown--brand-pc .filter-dropdown__text {
@@ -681,7 +688,7 @@ button {
     display: grid;
     grid-template-columns: 1fr calc(4 * 305px + 3 * 16px);
     align-items: center;
-    margin-bottom: 90px;
+    margin-bottom: 87px;
   }
   #marks .section__title {
     grid-column: 1;
@@ -696,7 +703,7 @@ button {
     justify-content: flex-end;
     display: flex;
     margin-right: 345px;
-    transform: translateX(-220px);
+    transform: translate(-220px, -10px);
   }
   .marks-filter--desktop {
     display: flex;
@@ -1290,6 +1297,7 @@ button {
   border-radius: 12px;
   padding: 16px;
   background-color: #262e37;
+  box-shadow: none;
 }
 
 .card__image--mark {
@@ -1359,6 +1367,23 @@ button {
 @media (min-width: 769px) {
   .mark-slider {
     align-items: center;
+  }
+
+  #marks .card--mark .card__image--mark .mark-slider {
+    left: 8px;
+    right: 8px;
+    width: auto !important;
+    max-width: calc(100% - 16px);
+  }
+
+  #marks .card--mark .card__image--mark .mark-slider__segment {
+    flex: 1 1 0 !important;
+    width: auto !important;
+  }
+
+  #marks .card--mark .card__image--mark.card__image--has-gallery .mark-slider {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .mark-slider__segment {
@@ -1982,6 +2007,12 @@ button {
   color: #6b7280;
 }
 
+.form__checkbox-link {
+  color: #184FB9;
+  text-decoration: none;
+  opacity: 0.6;
+}
+
 .form__checkbox input {
   appearance: none;
   width: 16px;
@@ -2079,6 +2110,18 @@ button {
 
 .form__note-line--first {
   white-space: nowrap;
+}
+
+.form__legal-link {
+  color: #184FB9;
+  text-decoration: none;
+  opacity: 1;
+}
+
+@media (min-width: 769px) {
+  .form__legal-link {
+    opacity: 1;
+  }
 }
 
 .footer {
@@ -2308,6 +2351,19 @@ button {
     max-width: 100%;
   }
 
+  .header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+  }
+
+  main {
+    padding-top: 100px;
+  }
+
   .header__inner {
     padding-block: 32px 12px;
   }
@@ -2341,8 +2397,8 @@ button {
 
   .nav__close {
     position: absolute;
-    top: 50px;
-    right: 20px;
+    top: 42px;
+    right: 12px;
     width: 44px;
     height: 44px;
     padding: 0;
@@ -2355,8 +2411,8 @@ button {
   }
 
   .nav__close img {
-    width: 30px;
-    height: 30px;
+    width: 45px;
+    height: 45px;
     filter: brightness(0) invert(1);
   }
 
@@ -2408,7 +2464,7 @@ button {
   }
 
   .hero {
-    padding-block: 32px 48px;
+    padding-block: 32px 38px;
   }
 
   .hero__media {
@@ -2463,16 +2519,16 @@ button {
   .hero__benefit {
     flex-direction: row;
     align-items: center;
-    gap: 8px;
+    gap: 3px;
   }
 
   .hero__benefit:nth-child(1) {
     order: 2;
-    transform: translateX(-25px);
+    transform: translateX(-40px);
   }
   .hero__benefit:nth-child(2) {
     order: 3;
-    transform: translateX(20px);
+    transform: translateX(10px);
   }
   .hero__benefit:nth-child(3) {
     order: 1;
@@ -2480,7 +2536,7 @@ button {
   }
   .hero__benefit:nth-child(4) {
     order: 4;
-    transform: translateX(0);
+    transform: translateX(-20px);
   }
 
   .hero__benefit-icon {
@@ -2506,11 +2562,17 @@ button {
     opacity: 0.8;
   }
 
+  .hero__image {
+    min-height: 0;
+    height: auto;
+  }
+
   .hero__img {
     width: 100%;
     max-width: 100%;
     height: auto;
     transform: translateY(-40px);
+    margin-bottom: -40px;
   }
 
   .header__logo {
@@ -2524,6 +2586,14 @@ button {
 
   #directions .card {
     min-height: 260px;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  #directions .card__image--dir1,
+  #directions .card__image--dir2,
+  #directions .card__image--dir3 {
+    border-radius: 8px;
   }
 
   .cards--marks {
@@ -2642,6 +2712,23 @@ button {
     width: 100%;
     height: 100px;
     min-height: 100px;
+  }
+
+  #marks .card--mark .card__image--mark .mark-slider {
+    left: 8px;
+    right: 8px;
+    width: auto !important;
+    max-width: calc(100% - 16px);
+  }
+
+  #marks .card--mark .card__image--mark .mark-slider__segment {
+    flex: 1 1 0 !important;
+    width: auto !important;
+  }
+
+  #marks .card--mark .card__image--mark.card__image--has-gallery .mark-slider {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   #marks .card--mark .card__body {
@@ -3056,7 +3143,8 @@ button {
     width: 100%;
   }
 
-  .consult-modal__form .form__checkbox span {
+  .consult-modal__form .form__checkbox span,
+  .consult-modal__form .form__checkbox a {
     font-family: Manrope, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-weight: 500;
     font-size: 14px;
@@ -3485,5 +3573,113 @@ button {
 .maker-picker__apply--active:hover,
 .brand-picker__apply--active:hover {
   background: #1a5ad4;
+}
+
+.cookie-banner {
+  position: fixed;
+  left: 20px;
+  bottom: 40px;
+  width: min(310px, calc(100vw - 40px));
+  height: 250px;
+  padding: 14px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(19, 24, 30, 0.96);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  z-index: 220;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.cookie-banner__icon {
+  display: block;
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  align-self: center;
+  margin: 20px 0 10px;
+}
+
+.cookie-banner__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cookie-banner.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.cookie-banner__text {
+  margin: 15px 0 0;
+  padding-right: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.cookie-banner__btn {
+  margin-top: auto;
+  height: 36px;
+  min-width: 108px;
+  align-self: center;
+  border: none;
+  border-radius: 8px;
+  background: #184FB9;
+  color: #ffffff;
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.cookie-banner__btn:hover {
+  background: #1a5ad4;
+}
+
+@media (max-width: 768px) {
+  .cookie-banner {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    height: auto;
+    min-height: 190px;
+    padding: 14px 14px 12px;
+    border-radius: 12px;
+    box-sizing: border-box;
+  }
+
+  .cookie-banner__icon {
+    width: 34px;
+    height: 34px;
+    flex: 0 0 34px;
+    margin: 8px 0 8px;
+  }
+
+  .cookie-banner__text {
+    margin: 8px 0 0;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  .cookie-banner__btn {
+    width: 100%;
+    min-width: 0;
+    margin-top: 12px;
+    height: 38px;
+  }
 }
 

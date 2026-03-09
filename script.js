@@ -19,6 +19,68 @@ function showTopNotice(message) {
   }, 2500);
 }
 
+const cookieBanner = document.getElementById("cookieBanner");
+const cookieBannerAccept = document.getElementById("cookieBannerAccept");
+const COOKIE_CONSENT_KEY = "planeta_cookie_consent_v1";
+const COOKIE_BANNER_DEBUG_ALWAYS_SHOW = true;
+
+function isDesktopCookieView() {
+  return window.matchMedia("(min-width: 769px)").matches;
+}
+
+function showCookieBanner() {
+  if (!cookieBanner) return;
+  cookieBanner.hidden = false;
+  requestAnimationFrame(() => {
+    cookieBanner.classList.add("is-visible");
+  });
+}
+
+function hideCookieBanner() {
+  if (!cookieBanner) return;
+  cookieBanner.classList.remove("is-visible");
+  setTimeout(() => {
+    if (!cookieBanner.classList.contains("is-visible")) {
+      cookieBanner.hidden = true;
+    }
+  }, 220);
+}
+
+function getCookieConsentAccepted() {
+  try {
+    return window.localStorage.getItem(COOKIE_CONSENT_KEY) === "accepted";
+  } catch (e) {
+    return false;
+  }
+}
+
+function setCookieConsentAccepted() {
+  if (COOKIE_BANNER_DEBUG_ALWAYS_SHOW) return;
+  try {
+    window.localStorage.setItem(COOKIE_CONSENT_KEY, "accepted");
+  } catch (e) {
+    // ignore storage access errors
+  }
+}
+
+function updateCookieBannerVisibility() {
+  if (!cookieBanner) return;
+  if (!COOKIE_BANNER_DEBUG_ALWAYS_SHOW && getCookieConsentAccepted()) {
+    hideCookieBanner();
+    return;
+  }
+  showCookieBanner();
+}
+
+if (cookieBanner && cookieBannerAccept) {
+  cookieBannerAccept.addEventListener("click", () => {
+    setCookieConsentAccepted();
+    hideCookieBanner();
+  });
+  updateCookieBannerVisibility();
+  window.addEventListener("resize", updateCookieBannerVisibility);
+}
+
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (e) => {
     const targetId = link.getAttribute("href");
@@ -306,6 +368,7 @@ const markImages = document.querySelectorAll(".card__image--mark");
 const lightbox = document.getElementById("lightbox");
 const cardModalThumbnails = document.getElementById("cardModalThumbnails");
 const cardModalMainImage = document.getElementById("cardModalMainImage");
+const cardModalMain = document.querySelector(".card-modal__main");
 const cardModalClose = document.querySelector(".card-modal__close");
 const cardModalCounter = document.getElementById("cardModalCounter");
 const cardModalMobileSlider = document.getElementById("cardModalMobileSlider");
@@ -374,6 +437,7 @@ markImages.forEach((imageEl) => {
   const galleryFromAttr = galleryAttr ? galleryAttr.split(",").map((s) => s.trim()) : [];
   const hoverSlides = galleryFromAttr.length ? [slides[0], ...galleryFromAttr] : slides;
   const zones = hoverSlides.length;
+  imageEl.classList.toggle("card__image--has-gallery", zones > 1);
 
   const SLIDER_WIDTH = 260;
   const SLIDER_PADDING = 4;
@@ -444,7 +508,13 @@ function closeCardModal() {
 
 if (lightbox) {
   lightbox.addEventListener("click", (e) => {
-    if (e.target.classList.contains("lightbox__backdrop")) closeCardModal();
+    if (e.target.classList.contains("lightbox__backdrop")) {
+      closeCardModal();
+      return;
+    }
+    if (isMobileView() && cardModalMain && !e.target.closest(".card-modal__main") && !e.target.closest(".card-modal__close")) {
+      closeCardModal();
+    }
   });
 }
 if (cardModalClose) {

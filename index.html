@@ -24,7 +24,7 @@
           <img src="assets/FrameCross.png" alt="" width="24" height="24" />
         </button>
         <ul class="nav__list">
-          <li class="nav__item"><a href="#directions" class="nav__link">О нас</a></li>
+          <li class="nav__item"><a href="#directions" class="nav__link">Направления</a></li>
           <li class="nav__item"><a href="#marks" class="nav__link">Маркировки</a></li>
           <li class="nav__item"><a href="#services" class="nav__link">Преимущества</a></li>
           <li class="nav__item"><a href="#contacts" class="nav__link">Контакты</a></li>
@@ -487,7 +487,7 @@
 
             <div class="form__checkbox">
               <input type="checkbox" id="consultFormCheckbox" required />
-              <span>Соглашаюсь с обработкой персональных данных</span>
+              <a href="SoglasieNaObrabotky.html" class="form__checkbox-link">Соглашаюсь с обработкой персональных данных</a>
             </div>
 
             <button type="submit" class="btn btn--primary btn--full contacts__submit">
@@ -496,11 +496,21 @@
             </button>
 
             <p class="form__note form__note--contacts form__note--contacts-desktop">
-              <span class="form__note-line form__note-line--first">Отправляя заявку, вы принимаете условия публичной оферты и подтверждаете</span>
-              <span class="form__note-line">согласие с политикой обработки персональных данных.</span>
+              <span class="form__note-line form__note-line--first">
+                Отправляя заявку, вы принимаете условия
+                <a href="PublichnayaAferta.html" class="form__legal-link">публичной оферты</a>
+                и подтверждаете
+              </span>
+              <span class="form__note-line">
+                согласие с
+                <a href="SoglasieNaObrabotky.html" class="form__legal-link">политикой обработки персональных данных</a>.
+              </span>
             </p>
             <p class="form__note form__note--contacts form__note--contacts-mobile">
-              Отправляя заявку, вы соглашаетесь с офертой и политикой обработки данных.
+              Отправляя заявку, вы соглашаетесь с
+              <a href="PublichnayaAferta.html" class="form__legal-link">офертой</a>
+              и
+              <a href="SoglasieNaObrabotky.html" class="form__legal-link">политикой обработки данных</a>.
             </p>
 
             <p class="form__success" id="formSuccess" hidden>
@@ -536,8 +546,8 @@
       <div class="footer__bottom">
         <p class="footer__legal">© 2026&nbsp;PLANETA-AUTO</p>
         <div class="footer__legal-links">
-          <a href="#" class="footer__legal-link"><span class="footer__legal-link-text--desktop">Конфиденциальности</span><span class="footer__legal-link-text--mobile">Конфиденциальности</span></a>
-          <a href="#" class="footer__legal-link">Публичная оферта</a>
+          <a href="PolitikaConfidencialnosti.html" class="footer__legal-link"><span class="footer__legal-link-text--desktop">Политика конфиденциальности</span><span class="footer__legal-link-text--mobile">Конфиденциальности</span></a>
+          <a href="PublichnayaAferta.html" class="footer__legal-link">Публичная оферта</a>
         </div>
       </div>
     </div>
@@ -559,7 +569,7 @@
         </div>
         <div class="form__checkbox">
           <input type="checkbox" id="consultModalCheckbox" required />
-          <span>Соглашаюсь с обработкой персональных данных</span>
+          <a href="SoglasieNaObrabotky.html" class="form__checkbox-link">Соглашаюсь с обработкой персональных данных</a>
         </div>
         <button type="submit" class="btn btn--primary btn--full contacts__submit consult-modal__submit">
           <span class="consult-modal__submit-text--desktop">Перезвоните мне</span>
@@ -567,16 +577,59 @@
         </button>
         <p class="form__note form__note--contacts consult-modal__note">
           <span class="consult-modal__note-text--desktop">
-            <span class="form__note-line form__note-line--first">Отправляя заявку, вы принимаете условия публичной оферты и подтверждаете</span>
-            <span class="form__note-line">согласие с политикой обработки персональных данных.</span>
+            <span class="form__note-line form__note-line--first">
+              Отправляя заявку, вы принимаете условия
+              <a href="PublichnayaAferta.html" class="form__legal-link">публичной оферты</a>
+              и подтверждаете
+            </span>
+            <span class="form__note-line">
+              согласие с
+              <a href="SoglasieNaObrabotky.html" class="form__legal-link">политикой обработки персональных данных</a>.
+            </span>
           </span>
-          <span class="consult-modal__note-text--mobile">Отправляя заявку, вы соглашаетесь с офертой и политикой обработки данных.</span>
+          <span class="consult-modal__note-text--mobile">
+            Отправляя заявку, вы соглашаетесь с
+            <a href="PublichnayaAferta.html" class="form__legal-link">офертой</a>
+            и
+            <a href="SoglasieNaObrabotky.html" class="form__legal-link">политикой обработки данных</a>.
+          </span>
         </p>
         <p class="form__success consult-modal__success" id="consultModalSuccess" hidden>
           Заявка отправлена! Мы свяжемся с вами в ближайшее время.
         </p>
       </form>
     </div>
+  </div>
+
+  <div class="cookie-banner" id="cookieBanner" role="region" aria-label="Уведомление о cookie" hidden>
+    <span class="cookie-banner__icon" aria-hidden="true">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <mask id="cookieBiteMask">
+            <rect width="36" height="36" fill="#ffffff"/>
+            <circle cx="26.2" cy="11.4" r="4.6" fill="#000000"/>
+            <circle cx="29.4" cy="15.8" r="3.3" fill="#000000"/>
+            <circle cx="23.2" cy="8.8" r="2.4" fill="#000000"/>
+          </mask>
+        </defs>
+
+        <circle cx="16.5" cy="18" r="13" fill="#1A5AD4" mask="url(#cookieBiteMask)"/>
+        <circle cx="10.8" cy="12.1" r="1.7" fill="#0F3F9A"/>
+        <circle cx="18.1" cy="10.6" r="1.6" fill="#0F3F9A"/>
+        <circle cx="12.7" cy="17.4" r="1.5" fill="#0F3F9A"/>
+        <circle cx="20.2" cy="18.2" r="1.9" fill="#0F3F9A"/>
+        <circle cx="15.3" cy="23.5" r="1.7" fill="#0F3F9A"/>
+
+        <circle cx="28.8" cy="11.7" r="1.2" fill="#4A8BFF"/>
+        <circle cx="31.1" cy="15.1" r="1" fill="#4A8BFF"/>
+        <circle cx="30.0" cy="8.2" r="1.1" fill="#4A8BFF"/>
+      </svg>
+    </span>
+    <p class="cookie-banner__text">
+      Продолжая использовать этот сайт и нажимая кнопку «Принимаю», вы даете согласие на обработку файлов cookie
+      и использование Яндекс.Метрики.
+    </p>
+    <button type="button" class="cookie-banner__btn" id="cookieBannerAccept">Принимаю</button>
   </div>
 
   <script src="script.js"></script>

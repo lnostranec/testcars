@@ -173,6 +173,10 @@ const nameInput = form?.querySelector('input[name="name"]');
 const phoneInput = form?.querySelector('input[name="phone"]');
 const checkboxInput = form?.querySelector('.form__checkbox input[type="checkbox"]');
 
+if (checkboxInput) {
+  checkboxInput.classList.toggle("input--error", !checkboxInput.checked);
+}
+
 function getPhoneDigits(value) {
   let v = (value || "").replace(/\D/g, "");
   if (v.startsWith("8") && v.length <= 11) v = "7" + v.slice(1);
@@ -220,6 +224,9 @@ function updatePageFormErrors() {
   if (phoneInput) {
     phoneInput.classList.toggle("input--error", !isPhoneFull(phoneInput.value));
   }
+  if (checkboxInput) {
+    checkboxInput.classList.toggle("input--error", !checkboxInput.checked);
+  }
 }
 
 function flashSubmittingState(buttonEl, duration = 350) {
@@ -235,9 +242,11 @@ if (form) {
     e.preventDefault();
     const nameEmpty = (nameInput?.value || "").trim().length === 0;
     const phoneNotFull = !isPhoneFull(phoneInput?.value);
-    if (nameEmpty || phoneNotFull) {
+    const checkboxNotChecked = !checkboxInput?.checked;
+    if (nameEmpty || phoneNotFull || checkboxNotChecked) {
       if (nameInput) nameInput.classList.toggle("input--error", nameEmpty);
       if (phoneInput) phoneInput.classList.toggle("input--error", phoneNotFull);
+      if (checkboxInput) checkboxInput.classList.toggle("input--error", checkboxNotChecked);
       return;
     }
     flashSubmittingState(submitBtn);
@@ -269,7 +278,12 @@ if (form) {
     phoneInput.addEventListener("blur", updatePageFormErrors);
     phoneInput.setAttribute("maxlength", "18");
   }
-  if (checkboxInput) checkboxInput.addEventListener("change", updateSubmitButtonState);
+  if (checkboxInput) {
+    checkboxInput.addEventListener("change", () => {
+      updateSubmitButtonState();
+      updatePageFormErrors();
+    });
+  }
 }
 
 const consultModalForm = document.getElementById("consultModalForm");
@@ -279,6 +293,10 @@ const modalSubmitBtn = consultModalForm?.querySelector(".contacts__submit");
 const modalNameInput = consultModalForm?.querySelector('input[name="name"]');
 const modalPhoneInput = consultModalForm?.querySelector('input[name="phone"]');
 const modalCheckbox = consultModalForm?.querySelector('.form__checkbox input[type="checkbox"]');
+
+if (modalCheckbox) {
+  modalCheckbox.classList.toggle("input--error", !modalCheckbox.checked);
+}
 
 function updateModalSubmitState() {
   if (!modalSubmitBtn || !modalNameInput || !modalPhoneInput || !modalCheckbox) return;
@@ -296,6 +314,9 @@ function updateModalFormErrors() {
   if (modalPhoneInput) {
     modalPhoneInput.classList.toggle("input--error", !isPhoneFull(modalPhoneInput.value));
   }
+   if (modalCheckbox) {
+    modalCheckbox.classList.toggle("input--error", !modalCheckbox.checked);
+  }
 }
 
 function closeConsultModal() {
@@ -310,9 +331,11 @@ if (consultModalForm) {
     e.preventDefault();
     const nameEmpty = (modalNameInput?.value || "").trim().length === 0;
     const phoneNotFull = !isPhoneFull(modalPhoneInput?.value);
-    if (nameEmpty || phoneNotFull) {
+    const checkboxNotChecked = !modalCheckbox?.checked;
+    if (nameEmpty || phoneNotFull || checkboxNotChecked) {
       if (modalNameInput) modalNameInput.classList.toggle("input--error", nameEmpty);
       if (modalPhoneInput) modalPhoneInput.classList.toggle("input--error", phoneNotFull);
+      if (modalCheckbox) modalCheckbox.classList.toggle("input--error", checkboxNotChecked);
       return;
     }
     flashSubmittingState(modalSubmitBtn);
@@ -345,7 +368,12 @@ if (consultModalForm) {
     modalPhoneInput.addEventListener("blur", updateModalFormErrors);
     modalPhoneInput.setAttribute("maxlength", "18");
   }
-  if (modalCheckbox) modalCheckbox.addEventListener("change", updateModalSubmitState);
+  if (modalCheckbox) {
+    modalCheckbox.addEventListener("change", () => {
+      updateModalSubmitState();
+      updateModalFormErrors();
+    });
+  }
 }
 
 if (consultModal) {

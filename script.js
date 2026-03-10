@@ -83,11 +83,14 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
     if (targetId === "#consult" && consultModal) {
       e.preventDefault();
       if (consultModalForm) {
+        modalFormSubmitted = false;
         consultModalForm.reset();
         modalNameInput?.classList.remove("input--error");
         modalPhoneInput?.classList.remove("input--error");
+        modalCheckbox?.classList.remove("input--error");
+        modalNameInput?.classList.add("input--valid");
+        modalPhoneInput?.classList.add("input--valid");
         updateModalSubmitState();
-        updateModalFormErrors();
       }
       if (consultModalSuccess) consultModalSuccess.hidden = true;
       consultModal.classList.add("is-open");
@@ -173,9 +176,13 @@ const submitBtn = form?.querySelector(".contacts__submit");
 const nameInput = form?.querySelector('input[name="name"]');
 const phoneInput = form?.querySelector('input[name="phone"]');
 const checkboxInput = form?.querySelector('.form__checkbox input[type="checkbox"]');
+let pageFormSubmitted = false;
 
-if (checkboxInput) {
-  checkboxInput.classList.toggle("input--error", !checkboxInput.checked);
+if (nameInput) {
+  nameInput.classList.add("input--valid");
+}
+if (phoneInput) {
+  phoneInput.classList.add("input--valid");
 }
 
 function getPhoneDigits(value) {
@@ -220,10 +227,14 @@ function updateSubmitButtonState() {
 
 function updatePageFormErrors() {
   if (nameInput) {
-    nameInput.classList.toggle("input--error", (nameInput.value || "").trim().length === 0);
+    const hasError = (nameInput.value || "").trim().length === 0;
+    nameInput.classList.toggle("input--error", hasError);
+    nameInput.classList.toggle("input--valid", !hasError && !!(nameInput.value || "").trim().length);
   }
   if (phoneInput) {
-    phoneInput.classList.toggle("input--error", !isPhoneFull(phoneInput.value));
+    const hasError = !isPhoneFull(phoneInput.value);
+    phoneInput.classList.toggle("input--error", hasError);
+    phoneInput.classList.toggle("input--valid", !hasError && isPhoneFull(phoneInput.value));
   }
   if (checkboxInput) {
     checkboxInput.classList.toggle("input--error", !checkboxInput.checked);
@@ -241,12 +252,19 @@ function flashSubmittingState(buttonEl, duration = 350) {
 if (form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    pageFormSubmitted = true;
     const nameEmpty = (nameInput?.value || "").trim().length === 0;
     const phoneNotFull = !isPhoneFull(phoneInput?.value);
     const checkboxNotChecked = !checkboxInput?.checked;
     if (nameEmpty || phoneNotFull || checkboxNotChecked) {
-      if (nameInput) nameInput.classList.toggle("input--error", nameEmpty);
-      if (phoneInput) phoneInput.classList.toggle("input--error", phoneNotFull);
+      if (nameInput) {
+        nameInput.classList.toggle("input--error", nameEmpty);
+        nameInput.classList.toggle("input--valid", !nameEmpty);
+      }
+      if (phoneInput) {
+        phoneInput.classList.toggle("input--error", phoneNotFull);
+        phoneInput.classList.toggle("input--valid", !phoneNotFull);
+      }
       if (checkboxInput) checkboxInput.classList.toggle("input--error", checkboxNotChecked);
       return;
     }
@@ -261,9 +279,11 @@ if (form) {
     nameInput.addEventListener("input", () => {
       stripDigitsFromName(nameInput);
       updateSubmitButtonState();
-      updatePageFormErrors();
+      if (pageFormSubmitted) updatePageFormErrors();
     });
-    nameInput.addEventListener("blur", updatePageFormErrors);
+    nameInput.addEventListener("blur", () => {
+      if (pageFormSubmitted) updatePageFormErrors();
+    });
   }
   if (phoneInput) {
     phoneInput.addEventListener("focus", () => {
@@ -274,20 +294,16 @@ if (form) {
     phoneInput.addEventListener("input", () => {
       formatPhoneInput(phoneInput);
       updateSubmitButtonState();
-      updatePageFormErrors();
+      if (pageFormSubmitted) updatePageFormErrors();
     });
-    phoneInput.addEventListener("blur", updatePageFormErrors);
     phoneInput.setAttribute("maxlength", "18");
   }
   if (checkboxInput) {
     checkboxInput.addEventListener("change", () => {
       updateSubmitButtonState();
-      updatePageFormErrors();
+      if (pageFormSubmitted) updatePageFormErrors();
     });
   }
-
-  // Изначальная подсветка пустых полей
-  updatePageFormErrors();
 }
 
 const consultModalForm = document.getElementById("consultModalForm");
@@ -297,9 +313,13 @@ const modalSubmitBtn = consultModalForm?.querySelector(".contacts__submit");
 const modalNameInput = consultModalForm?.querySelector('input[name="name"]');
 const modalPhoneInput = consultModalForm?.querySelector('input[name="phone"]');
 const modalCheckbox = consultModalForm?.querySelector('.form__checkbox input[type="checkbox"]');
+let modalFormSubmitted = false;
 
-if (modalCheckbox) {
-  modalCheckbox.classList.toggle("input--error", !modalCheckbox.checked);
+if (modalNameInput) {
+  modalNameInput.classList.add("input--valid");
+}
+if (modalPhoneInput) {
+  modalPhoneInput.classList.add("input--valid");
 }
 
 function updateModalSubmitState() {
@@ -313,10 +333,14 @@ function updateModalSubmitState() {
 
 function updateModalFormErrors() {
   if (modalNameInput) {
-    modalNameInput.classList.toggle("input--error", (modalNameInput.value || "").trim().length === 0);
+    const hasError = (modalNameInput.value || "").trim().length === 0;
+    modalNameInput.classList.toggle("input--error", hasError);
+    modalNameInput.classList.toggle("input--valid", !hasError && !!(modalNameInput.value || "").trim().length);
   }
   if (modalPhoneInput) {
-    modalPhoneInput.classList.toggle("input--error", !isPhoneFull(modalPhoneInput.value));
+    const hasError = !isPhoneFull(modalPhoneInput.value);
+    modalPhoneInput.classList.toggle("input--error", hasError);
+    modalPhoneInput.classList.toggle("input--valid", !hasError && isPhoneFull(modalPhoneInput.value));
   }
    if (modalCheckbox) {
     modalCheckbox.classList.toggle("input--error", !modalCheckbox.checked);
@@ -333,12 +357,19 @@ function closeConsultModal() {
 if (consultModalForm) {
   consultModalForm.addEventListener("submit", (e) => {
     e.preventDefault();
+    modalFormSubmitted = true;
     const nameEmpty = (modalNameInput?.value || "").trim().length === 0;
     const phoneNotFull = !isPhoneFull(modalPhoneInput?.value);
     const checkboxNotChecked = !modalCheckbox?.checked;
     if (nameEmpty || phoneNotFull || checkboxNotChecked) {
-      if (modalNameInput) modalNameInput.classList.toggle("input--error", nameEmpty);
-      if (modalPhoneInput) modalPhoneInput.classList.toggle("input--error", phoneNotFull);
+      if (modalNameInput) {
+        modalNameInput.classList.toggle("input--error", nameEmpty);
+        modalNameInput.classList.toggle("input--valid", !nameEmpty);
+      }
+      if (modalPhoneInput) {
+        modalPhoneInput.classList.toggle("input--error", phoneNotFull);
+        modalPhoneInput.classList.toggle("input--valid", !phoneNotFull);
+      }
       if (modalCheckbox) modalCheckbox.classList.toggle("input--error", checkboxNotChecked);
       return;
     }
@@ -354,9 +385,11 @@ if (consultModalForm) {
     modalNameInput.addEventListener("input", () => {
       stripDigitsFromName(modalNameInput);
       updateModalSubmitState();
-      updateModalFormErrors();
+      if (modalFormSubmitted) updateModalFormErrors();
     });
-    modalNameInput.addEventListener("blur", updateModalFormErrors);
+    modalNameInput.addEventListener("blur", () => {
+      if (modalFormSubmitted) updateModalFormErrors();
+    });
   }
   if (modalPhoneInput) {
     modalPhoneInput.addEventListener("focus", () => {
@@ -367,20 +400,16 @@ if (consultModalForm) {
     modalPhoneInput.addEventListener("input", () => {
       formatPhoneInput(modalPhoneInput);
       updateModalSubmitState();
-      updateModalFormErrors();
+      if (modalFormSubmitted) updateModalFormErrors();
     });
-    modalPhoneInput.addEventListener("blur", updateModalFormErrors);
     modalPhoneInput.setAttribute("maxlength", "18");
   }
   if (modalCheckbox) {
     modalCheckbox.addEventListener("change", () => {
       updateModalSubmitState();
-      updateModalFormErrors();
+      if (modalFormSubmitted) updateModalFormErrors();
     });
   }
-
-  // Изначальная подсветка пустых полей в модалке
-  updateModalFormErrors();
 }
 
 if (consultModal) {

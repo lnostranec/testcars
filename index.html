@@ -471,7 +471,6 @@
                 id="name"
                 name="name"
                 placeholder="Ваше имя"
-                required
               />
             </div>
             <div class="form__field form__field--contacts">
@@ -481,12 +480,11 @@
                 id="phone"
                 name="phone"
                 placeholder="Номер телефона"
-                required
               />
             </div>
 
             <div class="form__checkbox">
-              <input type="checkbox" id="consultFormCheckbox" required />
+              <input type="checkbox" id="consultFormCheckbox" />
               <a href="SoglasieNaObrabotky.html" class="form__checkbox-link">Соглашаюсь с обработкой персональных данных</a>
             </div>
 
@@ -561,14 +559,14 @@
       <form class="form consult-modal__form" id="consultModalForm">
         <div class="form__field form__field--contacts">
           <label for="consultName">Ваше имя</label>
-          <input type="text" id="consultName" name="name" placeholder="Ваше имя" required />
+          <input type="text" id="consultName" name="name" placeholder="Ваше имя" />
         </div>
         <div class="form__field form__field--contacts">
           <label for="consultPhone">Номер телефона</label>
-          <input type="tel" id="consultPhone" name="phone" placeholder="Номер телефона" required autocomplete="tel" />
+          <input type="tel" id="consultPhone" name="phone" placeholder="Номер телефона" autocomplete="tel" />
         </div>
         <div class="form__checkbox">
-          <input type="checkbox" id="consultModalCheckbox" required />
+          <input type="checkbox" id="consultModalCheckbox" />
           <a href="SoglasieNaObrabotky.html" class="form__checkbox-link">Соглашаюсь с обработкой персональных данных</a>
         </div>
         <button type="submit" class="btn btn--primary btn--full contacts__submit consult-modal__submit">
@@ -613,7 +611,6 @@
           </mask>
         </defs>
 
-        <circle cx="20" cy="20" r="20" fill="#1F2933" />
         <circle cx="20" cy="20" r="14" fill="#1A5AD4" mask="url(#cookieBiteMask)" />
         <circle cx="14.3" cy="14.1" r="1.7" fill="#0F3F9A" />
         <circle cx="21.6" cy="12.6" r="1.6" fill="#0F3F9A" />
@@ -627,7 +624,10 @@
       </svg>
     </span>
     <p class="cookie-banner__text">
-      Продолжая использовать этот сайт и нажимая кнопку «Принимаю», вы даете согласие на обработку файлов cookie
+      Продолжая использовать этот сайт и нажимая кнопку «Принимаю», вы даете
+      <a href="SoglasieCookie.html" class="cookie-banner__link">
+        согласие на обработку файлов cookie
+      </a>
       и использование Яндекс.Метрики.
     </p>
     <button type="button" class="cookie-banner__btn" id="cookieBannerAccept">Принимаю</button>

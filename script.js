@@ -22,11 +22,6 @@ function showTopNotice(message) {
 const cookieBanner = document.getElementById("cookieBanner");
 const cookieBannerAccept = document.getElementById("cookieBannerAccept");
 const COOKIE_CONSENT_KEY = "planeta_cookie_consent_v1";
-const COOKIE_BANNER_DEBUG_ALWAYS_SHOW = true;
-
-function isDesktopCookieView() {
-  return window.matchMedia("(min-width: 769px)").matches;
-}
 
 function showCookieBanner() {
   if (!cookieBanner) return;
@@ -55,7 +50,6 @@ function getCookieConsentAccepted() {
 }
 
 function setCookieConsentAccepted() {
-  if (COOKIE_BANNER_DEBUG_ALWAYS_SHOW) return;
   try {
     window.localStorage.setItem(COOKIE_CONSENT_KEY, "accepted");
   } catch (e) {
@@ -65,7 +59,7 @@ function setCookieConsentAccepted() {
 
 function updateCookieBannerVisibility() {
   if (!cookieBanner) return;
-  if (!COOKIE_BANNER_DEBUG_ALWAYS_SHOW && getCookieConsentAccepted()) {
+  if (getCookieConsentAccepted()) {
     hideCookieBanner();
     return;
   }

@@ -87,6 +87,7 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
         modalNameInput?.classList.remove("input--error");
         modalPhoneInput?.classList.remove("input--error");
         updateModalSubmitState();
+        updateModalFormErrors();
       }
       if (consultModalSuccess) consultModalSuccess.hidden = true;
       consultModal.classList.add("is-open");
@@ -284,6 +285,9 @@ if (form) {
       updatePageFormErrors();
     });
   }
+
+  // Изначальная подсветка пустых полей
+  updatePageFormErrors();
 }
 
 const consultModalForm = document.getElementById("consultModalForm");
@@ -374,6 +378,9 @@ if (consultModalForm) {
       updateModalFormErrors();
     });
   }
+
+  // Изначальная подсветка пустых полей в модалке
+  updateModalFormErrors();
 }
 
 if (consultModal) {

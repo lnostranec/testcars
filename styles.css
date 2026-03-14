@@ -24,6 +24,11 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-x: hidden;
+  width: 100%;
+}
+
 html,
 body {
   margin: 0;
@@ -31,6 +36,8 @@ body {
 }
 
 body {
+  overflow-x: hidden;
+  max-width: 100vw;
   min-height: 100vh;
   font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     sans-serif;
@@ -54,32 +61,39 @@ button {
 
 .container {
   width: 100%;
-  max-width: 1160px;
+  max-width: 1268px;
   margin: 0 auto;
   padding-inline: 20px;
+  box-sizing: border-box;
 }
 
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 50;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
   background: #13181e;
   backdrop-filter: blur(16px);
+  box-sizing: border-box;
 }
 
 .header__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 32px;
+  gap: clamp(12px, 2vw, 32px);
   padding-block: 38px 18px;
+  box-sizing: border-box;
 }
 
 .header__logo {
   display: inline-flex;
   align-items: center;
-  margin-left: 30px;
-  margin-right: 100px;
+  margin-left: 0;
+  margin-right: clamp(16px, 5vw, 100px);
+  flex-shrink: 0;
 }
 
 .header__logo-img {
@@ -90,13 +104,14 @@ button {
 
 .nav {
   flex: 1;
+  min-width: 0;
 }
 
 .nav__list {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 56px;
+  gap: clamp(20px, 3vw, 56px);
   list-style: none;
   margin: 0;
   padding: 0;
@@ -111,15 +126,16 @@ button {
   transition: color 0.2s ease, opacity 0.2s ease;
 }
 
-.header__cta {
-  white-space: nowrap;
-  transform: translateX(165px);
+.nav__link-text--desktop {
+  display: none;
 }
 
-@media (min-width: 769px) {
-  .header__cta {
-    transform: translateX(180px);
-  }
+.nav__link-text--mobile {
+  display: inline;
+}
+
+.header__cta {
+  white-space: nowrap;
 }
 
 .nav__link.nav__link--active {
@@ -301,7 +317,10 @@ button {
 
 @media (min-width: 769px) {
   .hero__content {
-    margin-left: -20px;
+    padding-left: 0;
+  }
+  .hero__image {
+    margin-top: 16px;
   }
   .hero__title {
     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -471,9 +490,9 @@ button {
   position: relative;
   flex: 1;
   border-radius: var(--radius-lg);
-  background: #020617;
+  background: transparent;
   box-shadow: none;
-  min-height: 280px;
+  min-height: 0;
 }
 
 .hero__image::after {
@@ -487,9 +506,9 @@ button {
 .hero__img {
   position: relative;
   z-index: 1;
-  width: 706px;
-  height: 596px;
-  max-width: none;
+  width: 100%;
+  max-width: 706px;
+  height: auto;
   object-fit: contain;
   display: block;
   margin-inline: auto;
@@ -559,11 +578,11 @@ button {
 
 #marks.section {
   background: #13181e;
-  padding: 120px 86px;
+  padding: 120px 0;
 }
 
 #marks .container {
-  max-width: 1440px;
+  max-width: 1268px;
 }
 
 #marks .section__title {
@@ -573,8 +592,6 @@ button {
   font-size: 24px;
   line-height: 28px;
   letter-spacing: 0;
-  white-space: nowrap;
-  margin-top: -80px;
 }
 
 .section__header {
@@ -591,6 +608,13 @@ button {
 }
 
 @media (min-width: 769px) {
+  .header__cta {
+    margin-left: auto;
+  }
+
+  main {
+    padding-top: 80px;
+  }
   .header .container,
   .hero .container,
   #directions .container,
@@ -599,24 +623,14 @@ button {
   #contacts .container,
   .footer .container {
     width: 100%;
-    max-width: 1160px;
+    max-width: min(1268px, calc(100vw - 40px));
     margin-left: auto;
     margin-right: auto;
     padding-inline: 20px;
     box-sizing: border-box;
   }
-  .header {
-    transform: translateX(-160px);
-    width: calc(100% + 160px);
-    box-sizing: border-box;
-  }
-  .hero {
-    transform: translateX(-60px);
-  }
-  #directions.section {
-    transform: translateX(-100px);
-    width: calc(100% + 100px);
-    box-sizing: border-box;
+  .header__inner {
+    min-width: 0;
   }
   #directions .section__title {
     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -627,12 +641,6 @@ button {
     margin-top: 30px;
     margin-bottom: 82px;
   }
-  #directions .cards--wide .card:nth-child(2) {
-    transform: translateX(4px);
-  }
-  #directions .cards--wide .card:nth-child(3) {
-    transform: translateX(8px);
-  }
   #services .section__title {
     margin-top: 30px;
     margin-bottom: 82px;
@@ -641,7 +649,6 @@ button {
     padding-left: 0;
     padding-right: 0;
     box-sizing: border-box;
-    transform: translateX(-50px);
   }
   #marks .section__header {
     width: 100%;
@@ -686,24 +693,28 @@ button {
 @media (min-width: 769px) {
   #marks .section__header {
     display: grid;
-    grid-template-columns: 1fr calc(4 * 305px + 3 * 16px);
+    grid-template-columns: 1fr auto;
     align-items: center;
+    gap: 20px;
     margin-bottom: 87px;
   }
   #marks .section__title {
     grid-column: 1;
+    min-width: 0;
     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-weight: 700;
     font-size: 40px;
     line-height: 100%;
     letter-spacing: 0;
+    overflow-wrap: break-word;
   }
   #marks .section__filters {
     grid-column: 2;
+    flex-shrink: 0;
     justify-content: flex-end;
     display: flex;
-    margin-right: 345px;
-    transform: translate(-220px, -10px);
+    margin-right: 0;
+    transform: none;
   }
   .marks-filter--desktop {
     display: flex;
@@ -711,6 +722,12 @@ button {
     gap: 12px;
   }
   .marks-filter--combined {
+    display: none;
+  }
+  .nav__link-text--desktop {
+    display: inline;
+  }
+  .nav__link-text--mobile {
     display: none;
   }
   #services .why__item--service .card__body,
@@ -721,13 +738,14 @@ button {
     transform: none !important;
   }
   #services .why__side {
-    grid-template-columns: repeat(2, 299px);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-auto-rows: 264px;
     column-gap: 25px;
     row-gap: 25px;
   }
   #services .why__item {
-    width: 299px;
+    width: 100%;
+    min-width: 0;
     height: 264px;
     min-height: 264px;
   }
@@ -751,15 +769,6 @@ button {
   }
   #marks .filter-dropdown__list {
     z-index: 200;
-  }
-  .marks-show-all-wrapper {
-    margin-left: 140px;
-  }
-  #marks .section__cta {
-    margin-left: 140px;
-  }
-  #contacts .contacts__info {
-    margin-left: -80px;
   }
   #contacts .contacts__row--people {
     display: flex;
@@ -791,7 +800,6 @@ button {
     box-shadow: none;
     margin-top: -20px;
     background-color: #FFFFFF;
-    transform: translateX(20px);
   }
   #contacts .form__checkbox {
     margin-bottom: 5px;
@@ -1099,10 +1107,8 @@ button {
 }
 
 .cards--marks {
-  grid-template-columns: repeat(4, 305px);
-  column-gap: 16px;
-  row-gap: 16px;
-  justify-content: flex-start;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
 }
 
 #marks .cards--marks {
@@ -1199,12 +1205,12 @@ button {
 }
 
 #directions .cards--wide {
-  grid-template-columns: repeat(3, 408px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   margin-top: -20px;
 }
 
 #directions .card {
-  width: 408px;
+  width: 100%;
   height: 344px;
   box-sizing: border-box;
   border-radius: 7px;
@@ -1218,36 +1224,44 @@ button {
 .card__image--why-main {
   min-height: 380px;
   background-image: url("assets/Schedule.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 #services .why__main .card__image--why-main {
-  width: 606px;
+  width: 100%;
+  max-width: 606px;
   height: 480px;
   min-height: 480px;
-  margin-left: 8px;
-  margin-bottom: 0;
-  margin-top: 8px;
+  margin: 8px auto 0;
   border-radius: 8px 8px 0 0;
   flex: none;
 }
 
+.card__image--why1,
+.card__image--why2,
+.card__image--why3,
+.card__image--why4 {
+  min-height: 160px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
 .card__image--why1 {
-  min-height: 120px;
   background-image: url("assets/why-1.jpg");
 }
 
 .card__image--why2 {
-  min-height: 120px;
   background-image: url("assets/why-2.jpg");
 }
 
 .card__image--why3 {
-  min-height: 120px;
   background-image: url("assets/why-3.jpg");
 }
 
 .card__image--why4 {
-  min-height: 120px;
   background-image: url("assets/why-4.jpg");
 }
 
@@ -1292,7 +1306,8 @@ button {
 
 #marks .card--mark {
   text-align: center;
-  width: 305px;
+  width: 100%;
+  min-width: 0;
   height: 268px;
   border-radius: 12px;
   padding: 16px;
@@ -1300,11 +1315,13 @@ button {
   box-shadow: none;
 }
 
-.card__image--mark {
-  width: 273px;
+#marks .card--mark .card__image--mark {
+  width: 100%;
   height: 180px;
-  max-width: 100%;
   background-image: url("assets/mark.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
 }
@@ -1528,33 +1545,40 @@ button {
 
 .grid.why {
   display: grid;
-  grid-template-columns: 622px 622px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   column-gap: 24px;
-  max-width: 1268px;
+  row-gap: 32px;
+  max-width: 100%;
+  width: 100%;
+  overflow: hidden;
 }
 
 #services .container {
-  max-width: 1268px;
+  max-width: min(1268px, calc(100vw - 40px));
 }
 
 .why__main {
-  width: 622px;
+  width: 100%;
   min-height: 0;
   align-self: start;
 }
 
 .why__side {
   display: grid;
-  grid-template-columns: repeat(2, 299px);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-auto-rows: 200px;
   column-gap: 12px;
   row-gap: 12px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .why__item {
-  width: 299px;
+  width: 100%;
+  min-width: 0;
   height: 200px;
   min-height: 200px;
+  overflow: hidden;
 }
 
 #services .card {
@@ -1563,17 +1587,18 @@ button {
   box-shadow: none;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 #services .why__main .card__image:not(.card__image--why-main),
 #services .why__item .card__image {
   border-radius: 0 0 24px 24px;
   flex: 1;
+  overflow: hidden;
 }
 
 #services .why__item .card__image {
-  transform: scale(0.8);
-  transform-origin: center bottom;
+  min-height: 160px;
 }
 
 #services .why__item--service,
@@ -1603,8 +1628,7 @@ button {
 }
 
 #services .why__item--service .card__image {
-  transform: translateY(10px) scale(0.8);
-  transform-origin: center bottom;
+  transform: translateY(10px);
 }
 
 #services .why__item--service .card__frame {
@@ -1612,8 +1636,7 @@ button {
 }
 
 #services .why__item--delivery .card__image {
-  transform: translateY(6px) scale(0.8);
-  transform-origin: center bottom;
+  transform: translateY(6px);
 }
 
 #services .why__item--delivery .card__frame {
@@ -1621,8 +1644,7 @@ button {
 }
 
 #services .why__item--guarantee .card__image {
-  transform: translateY(6px) scale(0.8);
-  transform-origin: center bottom;
+  transform: translateY(6px);
 }
 
 #services .why__item--guarantee .card__frame {
@@ -1633,22 +1655,26 @@ button {
   position: absolute;
   bottom: 0;
   right: 0;
-  width: 176px;
-  height: 168px;
+  width: 85%;
+  max-width: 220px;
+  height: auto;
+  aspect-ratio: 176 / 168;
   object-fit: contain;
+  object-position: bottom right;
   pointer-events: none;
 }
 
 #services .card__frame--man {
-  width: 250px;
-  height: 239px;
-  bottom: -50px;
+  width: 100%;
+  max-width: none;
+  aspect-ratio: 250 / 239;
+  bottom: -40px;
 }
 
 #services .card__frame--furgon,
 #services .card__frame--koleso {
-  width: 160px;
-  height: 148px;
+  max-width: 200px;
+  aspect-ratio: 160 / 148;
 }
 
 #services .card__body {
@@ -1675,23 +1701,24 @@ button {
 
 .contacts {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-  gap: 48px;
+  grid-template-columns: 558px 620px;
+  column-gap: 48px;
+  row-gap: 32px;
   align-items: center;
   width: 100%;
   height: 100%;
-  max-width: 1440px;
+  max-width: min(1268px, calc(100vw - 40px));
   box-sizing: border-box;
-  padding-inline: 20px;
   min-width: 0;
 }
 
+
 #contacts.section {
   width: 100%;
-  height: 672px;
+  height: auto;
   min-height: 672px;
   margin: 0;
-  padding: 0;
+  padding: 64px 0 0;
   box-sizing: border-box;
   background: #f0f2f3;
   overflow-x: hidden;
@@ -1699,7 +1726,7 @@ button {
 
 .contacts__info {
   border-radius: 24px;
-  padding: 40px 48px;
+  padding: 40px 32px 40px 0;
   width: 100%;
   max-width: 558px;
   min-width: 0;
@@ -1709,7 +1736,6 @@ button {
 
 .contacts__text {
   margin: 12px 0 32px;
-  margin-left: -15px;
   color: #667483;
   max-width: 520px;
   font-family: "Manrope", system-ui, -apple-system, BlinkMacSystemFont,
@@ -1847,7 +1873,8 @@ button {
 }
 
 .contacts__form-wrapper {
-  margin-top: -30px;
+  margin-top: 24px;
+  margin-bottom: 32px;
   background: #F0F2F3;
   border-radius: 12px;
   padding: 40px;
@@ -1855,7 +1882,8 @@ button {
   width: 100%;
   max-width: 620px;
   min-width: 0;
-  min-height: 436px;
+  height: 432px;
+  min-height: 432px;
   box-sizing: border-box;
 }
 
@@ -1935,7 +1963,7 @@ button {
 
 #contacts .section__title {
   margin-bottom: 16px;
-  margin-left: -15px;
+  margin-left: 0;
   font-family: Manrope, system-ui, sans-serif;
   font-weight: 800;
   font-size: 24px;
@@ -2145,10 +2173,6 @@ button {
   padding-block: 40px 60px;
 }
 
-.footer .container {
-  max-width: 1268px;
-}
-
 .footer__inner {
   display: flex;
   align-items: center;
@@ -2208,17 +2232,10 @@ button {
     display: none;
   }
   .footer__left {
-    margin-left: -30px;
-  }
-  .footer__nav {
-    transform: translateX(50px);
-  }
-  .footer__line {
-    width: calc(100% + 50px);
+    margin-left: 0;
   }
   .footer__legal-links {
     margin-left: 20px;
-    transform: translateX(50px);
   }
   .footer__bottom {
     flex-direction: row;
@@ -2322,7 +2339,7 @@ button {
   }
 
   .why__side {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .why__item {
@@ -2345,6 +2362,92 @@ button {
   }
 }
 
+/* При масштабировании переключаемся на бургер, чтобы контент не обрезался */
+@media (max-width: 1200px) {
+  .header .container {
+    padding-inline: 16px;
+    max-width: min(1268px, calc(100vw - 40px));
+  }
+  .header__logo {
+    margin-right: 0;
+  }
+  .header__cta {
+    display: none;
+  }
+  .burger {
+    display: inline-flex;
+  }
+  /* Чтобы блок контактов не уезжал влево при масштабировании — складываем его в одну колонку,
+     форма и информация занимают всю ширину контейнера и масштабируются вместе с экраном */
+  .contacts {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+    row-gap: 32px;
+  }
+  .contacts__info,
+  .contacts__form-wrapper {
+    width: 100%;
+    max-width: 100%;
+  }
+  /* Дополнительный отступ между блоком контактов и футером при сужении/масштабировании */
+  #contacts.section {
+    padding-bottom: 56px;
+  }
+  .nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100dvh;
+    min-height: 100vh;
+    z-index: 9999;
+    background: #0A0E17;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+  }
+  .header--nav-open .nav {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+  .nav__close {
+    display: flex;
+    position: absolute;
+    top: 42px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+  .nav__list {
+    flex-direction: column;
+    align-items: center;
+    gap: 42px;
+  }
+  .nav__social {
+    display: flex;
+    position: absolute;
+    bottom: 48px;
+    left: 0;
+    right: 0;
+    justify-content: space-around;
+    padding-inline: 24px;
+  }
+}
+
 @media (max-width: 768px) {
   html,
   body {
@@ -2364,6 +2467,87 @@ button {
   .footer .container {
     width: 100%;
     max-width: 100%;
+  }
+
+  /* Исправляем более специфичный селектор #marks .container,
+     чтобы на мобилке он не был шире остальных блоков */
+  #marks .container {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 16px;
+    box-sizing: border-box;
+  }
+
+  /* Исправляем более специфичный селектор #services .container,
+     чтобы на мобилке он тоже шёл по краям блока */
+  #services .container {
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 16px;
+    box-sizing: border-box;
+  }
+
+  /* Блок "Работаем с маркировками" на мобилке:
+     заголовок и фильтр прижаты к левому краю контейнера */
+  #marks .section__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #marks .section__filters {
+    width: 100%;
+  }
+
+  #marks .section__title {
+    margin-top: 0;
+    margin-bottom: 16px;
+  }
+
+  .marks-filter--combined,
+  #marks .filter-dropdown--combined {
+    width: 100%;
+  }
+
+  /* Кнопка "Подобрать двигатель" и её контейнер на всю ширину контейнера */
+  .hero__actions {
+    width: 100%;
+    max-width: 100%;
+    margin: -45px 0 50px;
+    align-items: stretch;
+  }
+
+  /* Мобильная версия блока «Почему выбирают нас»:
+     текст слева, картинка справа как в макете */
+  #services .why__item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: auto;
+    min-height: 0;
+  }
+
+  #services .why__item .card__body {
+    position: static;
+    transform: none;
+    padding: 16px;
+    z-index: 1;
+    text-align: left;
+  }
+
+  #services .why__item .card__title {
+    margin: 0;
+  }
+
+  #services .why__item .card__image {
+    display: none;
+  }
+
+  #services .card__frame {
+    position: static;
+    flex: 0 0 144px;
+    width: 144px;
+    height: 134px;
+    object-fit: contain;
   }
 
   .header {
@@ -2513,7 +2697,7 @@ button {
   }
 
   .hero__actions .hero__primary-btn {
-    width: 343px;
+    width: 100%;
     height: 44px;
     font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-weight: 500;
@@ -2612,9 +2796,10 @@ button {
   }
 
   .cards--marks {
-    grid-template-columns: repeat(2, 167px);
-    justify-content: center;
+    width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
+    justify-content: stretch; /* убираем центрирование, колонки занимают всю ширину */
   }
 
   .card-modal .lightbox__backdrop {
@@ -2717,7 +2902,8 @@ button {
   }
 
   #marks .card--mark {
-    width: 167px;
+    width: 100%;
+    min-width: 0;
     height: 168px;
     padding: 8px;
     box-sizing: border-box;
@@ -2727,6 +2913,8 @@ button {
     width: 100%;
     height: 100px;
     min-height: 100px;
+    background-position: center;
+    background-size: contain;
   }
 
   #marks .card--mark .card__image--mark .mark-slider {
@@ -2762,17 +2950,16 @@ button {
   }
 
   #marks .section__cta .hero__primary-btn {
-    width: 343px;
-    min-width: 343px;
+    width: 100%;
+    min-width: 0;
     height: 44px;
     box-sizing: border-box;
   }
 
   #marks .section__cta {
-    margin-inline: -16px;
+    margin-inline: 0;
     padding-inline: 0;
     display: flex;
-    justify-content: center;
   }
 
   #marks .section__filters {
@@ -2831,7 +3018,7 @@ button {
   #contacts.section {
     height: auto;
     min-height: auto;
-    padding-block: 44px;
+    padding-block: 44px 64px;
     background-color: #F0F2F3;
   }
 
@@ -2839,8 +3026,20 @@ button {
     padding: 24px 20px;
   }
 
+  #contacts .contacts__grid::before {
+    left: -17px;
+  }
+
+  /* Только заголовок и текст прижаты к левому краю, остальное с отступом и полосой */
+  #contacts .contacts__info .section__title,
+  #contacts .contacts__info .contacts__text {
+    margin-left: -20px;
+    padding-left: 0;
+    width: calc(100% + 20px);
+  }
+
   .contacts__form-wrapper {
-    margin-top: -30px;
+    margin-top: 24px;
     width: 100%;
     max-width: 400px;
     margin-inline: auto;
@@ -3235,7 +3434,7 @@ button {
 
 .filter-panel {
   position: absolute;
-  top: 0;
+  top: 100px;
   right: 0;
   bottom: 0;
   width: 325px;

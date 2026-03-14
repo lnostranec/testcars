@@ -2533,6 +2533,29 @@ button {
     height: 134px;
     object-fit: contain;
     margin-left: auto;
+    align-self: flex-end;
+  }
+
+  #services .why__item--service .card__frame {
+    align-self: center;
+  }
+
+  #services .why__item--experience .card__frame {
+    width: 200px;
+    height: 190px;
+    flex: 0 0 200px;
+  }
+
+  #services .why__item--delivery .card__frame {
+    width: 162px;
+    height: 149px;
+    flex: 0 0 162px;
+  }
+
+  #services .why__item--guarantee .card__frame {
+    width: 162px;
+    height: 149px;
+    flex: 0 0 162px;
   }
 
   .header {

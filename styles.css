@@ -3549,6 +3549,12 @@ button {
   transform: translateX(0);
 }
 
+@media (max-width: 768px) {
+  .filter-panel {
+    top: 64px;
+  }
+}
+
 .filter-panel__header {
   display: flex;
   align-items: center;
@@ -3768,6 +3774,12 @@ button {
   display: flex;
   flex-direction: column;
   box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+}
+
+@media (max-width: 768px) {
+  .maker-picker {
+    top: 64px;
+  }
 }
 
 .maker-picker__header {

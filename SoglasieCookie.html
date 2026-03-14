@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Политика конфиденциальности</title>
+  <title>Соглашение Cookie</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -16,7 +16,13 @@
       min-height: 0;
       background: #ffffff;
       color: #111827;
-      padding: 48px 0 24px;
+      padding: 96px 0 24px;
+    }
+
+    .privacy-page .container {
+      max-width: 100%;
+      width: 100%;
+      padding-inline: 24px;
     }
 
     .privacy-card {
@@ -72,9 +78,8 @@
     }
 
     @media (min-width: 769px) {
-      .privacy-card {
-        width: min(calc(100% + 180px), calc(100vw - 40px));
-        margin-left: -50px;
+      .privacy-page .container {
+        padding-inline: 48px;
       }
     }
 
@@ -131,12 +136,12 @@
       </nav>
 
       <div class="header__right">
+        <a href="index.html#consult" class="btn btn--outline header__cta">Подобрать деталь</a>
         <button class="burger" aria-label="Открыть меню">
           <span></span>
           <span></span>
           <span></span>
         </button>
-        <a href="index.html#consult" class="btn btn--outline header__cta">Подобрать деталь</a>
       </div>
     </div>
   </header>

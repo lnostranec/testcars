@@ -52,9 +52,7 @@ function getCookieConsentAccepted() {
 function setCookieConsentAccepted() {
   try {
     window.localStorage.setItem(COOKIE_CONSENT_KEY, "accepted");
-  } catch (e) {
-    // ignore storage access errors
-  }
+  } catch (e) {}
 }
 
 function updateCookieBannerVisibility() {

@@ -84,8 +84,9 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: clamp(12px, 2vw, 32px);
-  padding-block: 38px 18px;
+  padding-block: 12px;
   box-sizing: border-box;
+  min-height: 80px;
 }
 
 .header__logo {
@@ -1230,13 +1231,15 @@ button {
 }
 
 #services .why__main .card__image--why-main {
-  width: 100%;
-  max-width: 606px;
+  width: 606px;
+  max-width: 100%;
   height: 480px;
   min-height: 480px;
   margin: 8px auto 0;
   border-radius: 8px 8px 0 0;
   flex: none;
+  background-size: cover;
+  background-position: center;
 }
 
 .card__image--why1,
@@ -1320,10 +1323,17 @@ button {
   height: 180px;
   background-image: url("assets/mark.png");
   background-position: center;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
+}
+
+@media (max-width: 960px) {
+  #marks .card--mark .card__image--mark {
+    background-size: 100% 100%;
+    background-position: center;
+  }
 }
 
 #marks .card--mark .card__title {
@@ -2296,8 +2306,12 @@ button {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .hero__content {
+    order: 0;
+  }
+
   .hero__media {
-    order: -1;
+    order: 1;
   }
 
   .cards--wide {
@@ -2328,9 +2342,15 @@ button {
 
   #services .why__main .card__image--why-main {
     width: 100%;
-    max-width: 100%;
+    max-width: none;
     height: auto;
-    min-height: 280px;
+    min-height: 0;
+    aspect-ratio: 606 / 480;
+    margin: 0 auto;
+    flex: none;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px 8px 0 0;
   }
 
   .why__main {
@@ -2362,7 +2382,6 @@ button {
   }
 }
 
-/* Слова меню скрываются при масштабе ~175% и выше (viewport уже, чем ~1100px) */
 @media (max-width: 1100px) {
   .nav__list {
     display: none;
@@ -2376,7 +2395,17 @@ button {
   }
 }
 
-/* При масштабировании: контакты в одну колонку и т.д.; бургер только на малой ширине */
+@media (max-width: 1280px) {
+  .contacts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #contacts .contacts__form-wrapper {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+}
+
 @media (max-width: 1200px) {
   .header .container {
     padding-inline: 16px;
@@ -2385,19 +2414,28 @@ button {
   .header__logo {
     margin-right: 0;
   }
-  /* Чтобы блок контактов не уезжал влево при масштабировании — складываем его в одну колонку,
-     форма и информация занимают всю ширину контейнера и масштабируются вместе с экраном */
+  #hero .hero__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #hero .hero__content {
+    order: 0;
+  }
+  #hero .hero__media {
+    order: 1;
+  }
+  #hero .hero__img {
+    max-width: 100%;
+    margin-inline: 0;
+  }
   .contacts {
     grid-template-columns: minmax(0, 1fr);
     column-gap: 0;
     row-gap: 32px;
   }
-  .contacts__info,
-  .contacts__form-wrapper {
+  #contacts .contacts__form-wrapper {
     width: 100%;
     max-width: 100%;
   }
-  /* Дополнительный отступ между блоком контактов и футером при сужении/масштабировании */
   #contacts.section {
     padding-bottom: 56px;
   }
@@ -2424,8 +2462,6 @@ button {
     max-width: 100%;
   }
 
-  /* Исправляем более специфичный селектор #marks .container,
-     чтобы на мобилке он не был шире остальных блоков */
   #marks .container {
     width: 100%;
     max-width: 100%;
@@ -2433,8 +2469,6 @@ button {
     box-sizing: border-box;
   }
 
-  /* Исправляем более специфичный селектор #services .container,
-     чтобы на мобилке он тоже шёл по краям блока */
   #services .container {
     width: 100%;
     max-width: 100%;
@@ -2442,8 +2476,6 @@ button {
     box-sizing: border-box;
   }
 
-  /* Блок "Работаем с маркировками" на мобилке:
-     заголовок и фильтр прижаты к левому краю контейнера */
   #marks .section__header {
     flex-direction: column;
     align-items: flex-start;
@@ -2463,7 +2495,6 @@ button {
     width: 100%;
   }
 
-  /* Кнопка "Подобрать двигатель" и её контейнер на всю ширину контейнера */
   .hero__actions {
     width: 100%;
     max-width: 100%;
@@ -2471,8 +2502,6 @@ button {
     align-items: stretch;
   }
 
-  /* Мобильная версия блока «Почему выбирают нас»:
-     текст слева, картинка справа как в макете */
   #services .why__item {
     display: flex;
     flex-direction: row;
@@ -2503,6 +2532,7 @@ button {
     width: 144px;
     height: 134px;
     object-fit: contain;
+    margin-left: auto;
   }
 
   .header {
@@ -2621,13 +2651,13 @@ button {
     padding-block: 32px 38px;
   }
 
-  .hero__media {
-    order: 1;
-  }
-
-  .hero__content {
+  #hero .hero__content {
     order: 0;
     padding: 22px 18px;
+  }
+
+  #hero .hero__media {
+    order: 1;
   }
 
   .hero__title {
@@ -2734,6 +2764,11 @@ button {
     margin-right: 0;
   }
 
+  .header .header__logo-img {
+    width: 91px;
+    height: 44px;
+  }
+
   #directions .cards--wide {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -2754,7 +2789,7 @@ button {
     width: 100%;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
-    justify-content: stretch; /* убираем центрирование, колонки занимают всю ширину */
+    justify-content: stretch;
   }
 
   .card-modal .lightbox__backdrop {
@@ -2869,7 +2904,7 @@ button {
     height: 100px;
     min-height: 100px;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
   }
 
   #marks .card--mark .card__image--mark .mark-slider {
@@ -2985,7 +3020,6 @@ button {
     left: -17px;
   }
 
-  /* Только заголовок и текст прижаты к левому краю, остальное с отступом и полосой */
   #contacts .contacts__info .section__title,
   #contacts .contacts__info .contacts__text {
     margin-left: -20px;
@@ -3882,4 +3916,3 @@ button {
     height: 38px;
   }
 }
-

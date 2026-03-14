@@ -2362,7 +2362,21 @@ button {
   }
 }
 
-/* При масштабировании переключаемся на бургер, чтобы контент не обрезался */
+/* Слова меню скрываются при масштабе ~175% и выше (viewport уже, чем ~1100px) */
+@media (max-width: 1100px) {
+  .nav__list {
+    display: none;
+  }
+  .nav {
+    flex: 0;
+    min-width: 0;
+  }
+  .header__cta {
+    margin-left: auto;
+  }
+}
+
+/* При масштабировании: контакты в одну колонку и т.д.; бургер только на малой ширине */
 @media (max-width: 1200px) {
   .header .container {
     padding-inline: 16px;
@@ -2370,12 +2384,6 @@ button {
   }
   .header__logo {
     margin-right: 0;
-  }
-  .header__cta {
-    display: none;
-  }
-  .burger {
-    display: inline-flex;
   }
   /* Чтобы блок контактов не уезжал влево при масштабировании — складываем его в одну колонку,
      форма и информация занимают всю ширину контейнера и масштабируются вместе с экраном */
@@ -2392,59 +2400,6 @@ button {
   /* Дополнительный отступ между блоком контактов и футером при сужении/масштабировании */
   #contacts.section {
     padding-bottom: 56px;
-  }
-  .nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    height: 100dvh;
-    min-height: 100vh;
-    z-index: 9999;
-    background: #0A0E17;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transition: opacity 0.25s ease, visibility 0.25s ease;
-  }
-  .header--nav-open .nav {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
-  .nav__close {
-    display: flex;
-    position: absolute;
-    top: 42px;
-    right: 12px;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-  }
-  .nav__list {
-    flex-direction: column;
-    align-items: center;
-    gap: 42px;
-  }
-  .nav__social {
-    display: flex;
-    position: absolute;
-    bottom: 48px;
-    left: 0;
-    right: 0;
-    justify-content: space-around;
-    padding-inline: 24px;
   }
 }
 

@@ -428,10 +428,15 @@ const cardModalMain = document.querySelector(".card-modal__main");
 const cardModalClose = document.querySelector(".card-modal__close");
 const cardModalCounter = document.getElementById("cardModalCounter");
 const cardModalMobileSlider = document.getElementById("cardModalMobileSlider");
+const cardModalThumbnailsWrapper = document.querySelector(".card-modal__thumbnails-wrapper");
+const cardModalThumbArrowUp = document.querySelector(".card-modal__thumb-arrow--up");
+const cardModalThumbArrowDown = document.querySelector(".card-modal__thumb-arrow--down");
 
 let cardModalGallery = [];
 let cardModalIndex = 0;
 let cardModalTouchStartX = null;
+let cardModalThumbWindowStart = 0;
+const CARD_MODAL_VISIBLE_THUMBS = 4;
 
 function renderCardModalMobileSlider(total, activeIndex) {
   if (!cardModalMobileSlider) return;
@@ -448,6 +453,41 @@ function renderCardModalMobileSlider(total, activeIndex) {
   }
 }
 
+function renderCardModalThumbnails() {
+  if (!cardModalThumbnails) return;
+  cardModalThumbnails.innerHTML = "";
+  if (!cardModalGallery.length) return;
+
+  const maxStart = Math.max(0, cardModalGallery.length - CARD_MODAL_VISIBLE_THUMBS);
+  const safeStart = Math.min(Math.max(0, cardModalThumbWindowStart), maxStart);
+  cardModalThumbWindowStart = safeStart;
+
+  const end = Math.min(cardModalGallery.length, safeStart + CARD_MODAL_VISIBLE_THUMBS);
+
+  for (let i = safeStart; i < end; i++) {
+    const src = cardModalGallery[i];
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className =
+      "card-modal__thumb-btn" +
+      (i === cardModalIndex ? " is-active" : "");
+    btn.setAttribute("data-index", String(i));
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = "Фото " + (i + 1);
+    btn.appendChild(img);
+    btn.addEventListener("click", () => setCardModalSlide(i));
+    cardModalThumbnails.appendChild(btn);
+  }
+
+  if (cardModalThumbnailsWrapper) {
+    cardModalThumbnailsWrapper.classList.toggle(
+      "card-modal__thumbnails-wrapper--has-scroll",
+      cardModalGallery.length > CARD_MODAL_VISIBLE_THUMBS
+    );
+  }
+}
+
 function setCardModalSlide(index) {
   if (!cardModalMainImage || !cardModalGallery.length) return;
   cardModalIndex = Math.max(0, Math.min(index, cardModalGallery.length - 1));
@@ -461,27 +501,31 @@ function setCardModalSlide(index) {
     });
   }
   renderCardModalMobileSlider(cardModalGallery.length, cardModalIndex);
+  renderCardModalThumbnails();
 }
 
 function openCardModal(gallery, initialIndex = 0) {
   if (!lightbox || !cardModalMainImage || !cardModalThumbnails || !gallery.length) return;
   cardModalGallery = gallery.slice();
-  cardModalThumbnails.innerHTML = "";
-  cardModalGallery.forEach((src, i) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "card-modal__thumb-btn" + (i === initialIndex ? " is-active" : "");
-    btn.setAttribute("data-index", String(i));
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = "Фото " + (i + 1);
-    btn.appendChild(img);
-    btn.addEventListener("click", () => setCardModalSlide(i));
-    cardModalThumbnails.appendChild(btn);
-  });
+  cardModalThumbWindowStart = 0;
   setCardModalSlide(initialIndex);
   lightbox.setAttribute("aria-hidden", "false");
   lightbox.classList.add("lightbox--open");
+}
+
+function scrollCardModalThumbnails(direction) {
+  if (!cardModalThumbnails || !cardModalGallery.length) return;
+  if (cardModalGallery.length <= CARD_MODAL_VISIBLE_THUMBS) return;
+
+  const maxStart = Math.max(0, cardModalGallery.length - CARD_MODAL_VISIBLE_THUMBS);
+  if (direction === "up") {
+    if (cardModalThumbWindowStart === 0) return;
+    cardModalThumbWindowStart -= 1;
+  } else {
+    if (cardModalThumbWindowStart >= maxStart) return;
+    cardModalThumbWindowStart += 1;
+  }
+  renderCardModalThumbnails();
 }
 
 markImages.forEach((imageEl) => {
@@ -575,6 +619,20 @@ if (lightbox) {
 }
 if (cardModalClose) {
   cardModalClose.addEventListener("click", closeCardModal);
+}
+
+if (cardModalThumbArrowUp) {
+  cardModalThumbArrowUp.addEventListener("click", (e) => {
+    e.stopPropagation();
+    scrollCardModalThumbnails("up");
+  });
+}
+
+if (cardModalThumbArrowDown) {
+  cardModalThumbArrowDown.addEventListener("click", (e) => {
+    e.stopPropagation();
+    scrollCardModalThumbnails("down");
+  });
 }
 
 if (cardModalMainImage) {
@@ -1099,4 +1157,3 @@ if (marksCards && marksShowAllWrapper && marksShowAllLink) {
     }
   });
 }
-

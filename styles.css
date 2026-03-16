@@ -1332,7 +1332,7 @@ button {
   min-height: 120px;
   background-image: url("assets/mark.png");
   background-position: center;
-  background-size: cover;
+  background-size: contain;
   background-repeat: no-repeat;
   position: relative;
   overflow: hidden;
@@ -1439,8 +1439,8 @@ button {
   position: fixed;
   inset: 0;
   display: none;
-  align-items: center;
-  justify-content: center;
+  align-items: center;          /* центрируем модалку по вертикали */
+  justify-content: center;      /* и по горизонтали */
   z-index: 100;
 }
 
@@ -1460,14 +1460,13 @@ button {
   flex-direction: row;
   align-items: flex-start;
   gap: 12px;
-  width: 930px;
-  height: 698px;
+  width: min(930px, calc(100vw - 32px));   /* по ширине не больше окна */
+  max-height: calc(100vh - 80px);          /* оставляем небольшие поля сверху/снизу */
   padding: 28px;
   background: #262E37;
   border-radius: 12px;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
   z-index: 1;
-  max-width: calc(100vw - 32px);
   box-sizing: border-box;
 }
 
@@ -1483,6 +1482,12 @@ button {
   cursor: pointer;
   z-index: 2;
   transition: opacity 0.2s ease;
+}
+
+@media (max-width: 1100px) {
+  .card-modal__close {
+    display: none;
+  }
 }
 
 .card-modal__close:hover {
@@ -1501,47 +1506,116 @@ button {
   flex-direction: column;
   gap: 12px;
   flex-shrink: 0;
+  height: 560px; /* высота под ровно 4 превью */
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.7) transparent;
+}
+
+.card-modal__thumbnails::-webkit-scrollbar {
+  width: 4px;
+}
+
+.card-modal__thumbnails::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.card-modal__thumbnails::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.7);
+  border-radius: 999px;
+}
+
+.card-modal__thumbnails-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 642px;
+  gap: 8px;
+}
+
+.card-modal__thumb-arrow {
+  width: 32px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  color: #ffffff;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.15s ease, background-color 0.15s ease;
+}
+
+.card-modal__thumb-arrow--up::before {
+  content: "▲";
+  font-size: 12px;
+}
+
+.card-modal__thumb-arrow--down::before {
+  content: "▼";
+  font-size: 12px;
+}
+
+.card-modal__thumbnails-wrapper--has-scroll .card-modal__thumb-arrow {
+  display: flex;
+}
+
+.card-modal__thumb-arrow:hover {
+  opacity: 1;
+  background: rgba(15, 23, 42, 1);
 }
 
 .card-modal__thumb-btn {
   display: block;
   width: 162px;
-  height: 150px;
+  height: calc((100% - 3 * 12px) / 4); /* равномерно 4 превью по высоте контейнера */
   padding: 0;
-  border: 2px solid transparent;
+  border: none;
   border-radius: 8px;
   overflow: hidden;
   background: #1a1d26;
   cursor: pointer;
-  transition: border-color 0.2s ease, opacity 0.2s ease;
+  transition: box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
 .card-modal__thumb-btn:hover,
 .card-modal__thumb-btn.is-active {
-  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
 }
 
 .card-modal__thumb-btn img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: fill; /* заполняет блок целиком без обрезки */
   display: block;
+  background-color: transparent;
 }
 
 .card-modal__main {
-  width: 700px;
+  width: auto;
   height: 642px;
-  flex-shrink: 0;
+  flex: 1 1 0;
+  min-width: 0;
   border-radius: 8px;
   overflow: hidden;
-  background: #1a1d26;
+  background: #262E37;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .card-modal__image {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  max-height: 100%;
+  object-fit: contain; /* масштабируем картинку внутри блока, не вылезая за границы */
   display: block;
+  background-color: #000000;
 }
 
 .card-modal__counter,
@@ -2918,6 +2992,8 @@ button {
     border-radius: 0;
     box-shadow: none;
     overflow: hidden;
+    left: 0;
+    transform: none;
   }
 
   .card-modal__close {
@@ -2942,7 +3018,9 @@ button {
     line-height: 1;
   }
 
-  .card-modal__thumbnails {
+  .card-modal__thumbnails,
+  .card-modal__thumbnails-wrapper,
+  .card-modal__thumb-arrow {
     display: none;
   }
 

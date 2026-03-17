@@ -421,15 +421,36 @@ document.addEventListener("keydown", (e) => {
 });
 
 const markImages = document.querySelectorAll(".card__image--mark");
+const pagePreloader = document.getElementById("pagePreloader");
+let pagePreloadPending = 0;
+let pageWindowLoaded = false;
 
 // Простое кэширование изображений для блока "Работаем с маркировками",
 // чтобы картинки в ползунке подгружались заранее и переключались без задержек.
 const markImageCache = new Map();
 
+function tryHidePagePreloader() {
+  if (!pagePreloader) return;
+  if (!pageWindowLoaded) return;
+  if (pagePreloadPending > 0) return;
+  pagePreloader.classList.add("page-preloader--hidden");
+  document.body.classList.remove("body--preloading");
+}
+
+window.addEventListener("load", () => {
+  pageWindowLoaded = true;
+  tryHidePagePreloader();
+});
+
 function preloadMarkImages(urls) {
   urls.forEach((url) => {
     if (!url || markImageCache.has(url)) return;
+    pagePreloadPending += 1;
     const img = new Image();
+    img.onload = img.onerror = () => {
+      pagePreloadPending = Math.max(0, pagePreloadPending - 1);
+      tryHidePagePreloader();
+    };
     img.src = url;
     markImageCache.set(url, img);
   });

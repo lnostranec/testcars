@@ -471,7 +471,7 @@ let cardModalGallery = [];
 let cardModalIndex = 0;
 let cardModalTouchStartX = null;
 let cardModalThumbWindowStart = 0;
-let cardModalVisibleThumbs = 4; // количество превью, которые пытаемся показывать одновременно
+let cardModalVisibleThumbs = 4; // максимум 4 превью в левом столбце одновременно
 
 function renderCardModalMobileSlider(total, activeIndex) {
   if (!cardModalMobileSlider) return;
@@ -546,6 +546,10 @@ function openCardModal(gallery, initialIndex = 0) {
   setCardModalSlide(initialIndex);
   lightbox.setAttribute("aria-hidden", "false");
   lightbox.classList.add("lightbox--open");
+  if (!isMobileView()) {
+    document.body.classList.add("body--modal-open");
+    document.documentElement.style.overflow = "hidden";
+  }
 }
 
 function scrollCardModalThumbnails(direction) {
@@ -570,8 +574,30 @@ markImages.forEach((imageEl) => {
 
   const galleryAttr = imageEl.getAttribute("data-gallery");
   const galleryFromAttr = galleryAttr ? galleryAttr.split(",").map((s) => s.trim()) : [];
-  const hoverSlides = galleryFromAttr.length ? [slides[0], ...galleryFromAttr] : slides;
-  const zones = hoverSlides.length;
+  // Отдельный набор картинок для превью на карточке (лёгкие версии),
+  // чтобы не грузить в память сразу те же большие файлы, что и для модалки.
+  const previewAttr = imageEl.getAttribute("data-preview");
+  const previewFromAttr = previewAttr ? previewAttr.split(",").map((s) => s.trim()) : [];
+
+  // Для отображения на карточке используем приоритетно preview-изображения,
+  // если они заданы. Если нет — старое поведение (slides + gallery).
+  let baseHoverSlides;
+  if (previewFromAttr.length) {
+    if (previewFromAttr.length === 1 && (galleryFromAttr.length || slides.length)) {
+      // Если есть только одно лёгкое превью, но несколько полноценных картинок,
+      // повторяем превью нужное количество раз, чтобы сохранить количество зон ползунка,
+      // но не грузить все большие файлы.
+      const count = galleryFromAttr.length ? galleryFromAttr.length + 1 : slides.length;
+      baseHoverSlides = Array(count).fill(previewFromAttr[0]);
+    } else {
+      baseHoverSlides = previewFromAttr;
+    }
+  } else {
+    baseHoverSlides = galleryFromAttr.length ? [slides[0], ...galleryFromAttr] : slides;
+  }
+
+  const hoverSlides = baseHoverSlides;
+  const zones = hoverSlides.length || 1;
 
   // Прелоадим все изображения для конкретной карточки сразу при загрузке страницы,
   // чтобы при первом наведении/переключении не было задержек.
@@ -582,12 +608,6 @@ markImages.forEach((imageEl) => {
   // Базовая настройка фонового изображения, даже если картинка одна.
   imageEl.style.backgroundSize = "cover";
   imageEl.style.backgroundPosition = "center";
-
-  // Если слайд всего один — просто показываем его и не строим ползунок.
-  if (zones <= 1) {
-    imageEl.style.backgroundImage = `url("${hoverSlides[0]}")`;
-    return;
-  }
 
   const SLIDER_WIDTH = 260;
   const SLIDER_PADDING = 4;
@@ -615,9 +635,11 @@ markImages.forEach((imageEl) => {
   imageEl.style.backgroundImage = `url("${hoverSlides[0]}")`;
   imageEl.dataset.currentIndex = "0";
 
-  imageEl.addEventListener("mousemove", (e) => {
+  const handleHoverMove = (clientX) => {
+    if (isMobileView()) return; // для десктопа
     const rect = imageEl.getBoundingClientRect();
-    const relativeX = (e.clientX - rect.left) / rect.width;
+    if (!rect.width) return;
+    const relativeX = (clientX - rect.left) / rect.width;
     const index = Math.min(
       zones - 1,
       Math.max(0, Math.floor(relativeX * zones))
@@ -626,7 +648,49 @@ markImages.forEach((imageEl) => {
     imageEl.dataset.currentIndex = String(index);
     imageEl.style.backgroundImage = `url("${hoverSlides[index]}")`;
     if (imageEl._markSliderSetActive) imageEl._markSliderSetActive(index);
+  };
+
+  const handleTouchMove = (clientX) => {
+    if (!isMobileView()) return; // для мобильной ширины
+    const rect = imageEl.getBoundingClientRect();
+    if (!rect.width) return;
+    const relativeX = (clientX - rect.left) / rect.width;
+    const index = Math.min(
+      zones - 1,
+      Math.max(0, Math.floor(relativeX * zones))
+    );
+    if (String(index) === imageEl.dataset.currentIndex) return;
+    imageEl.dataset.currentIndex = String(index);
+    imageEl.style.backgroundImage = `url("${hoverSlides[index]}")`;
+    if (imageEl._markSliderSetActive) imageEl._markSliderSetActive(index);
+  };
+
+  // ПК: ховер мышкой
+  imageEl.addEventListener("mousemove", (e) => {
+    handleHoverMove(e.clientX);
   });
+
+  // Мобильные: свайпы по самой картинке
+  let lastTouchX = null;
+  imageEl.addEventListener(
+    "touchstart",
+    (e) => {
+      const t = e.touches && e.touches[0];
+      lastTouchX = t ? t.clientX : null;
+    },
+    { passive: true }
+  );
+
+  imageEl.addEventListener(
+    "touchmove",
+    (e) => {
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      lastTouchX = t.clientX;
+      handleTouchMove(lastTouchX);
+    },
+    { passive: true }
+  );
 
   imageEl.addEventListener("mouseleave", () => {
     imageEl.dataset.currentIndex = "0";
@@ -654,6 +718,8 @@ function closeCardModal() {
   if (cardModalThumbnails) cardModalThumbnails.innerHTML = "";
   if (cardModalMobileSlider) cardModalMobileSlider.innerHTML = "";
   if (cardModalCounter) cardModalCounter.textContent = "";
+  document.body.classList.remove("body--modal-open");
+  document.documentElement.style.overflow = "";
 }
 
 if (lightbox) {

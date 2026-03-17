@@ -1547,26 +1547,6 @@ button {
   scrollbar-color: rgba(156, 163, 175, 0.7) transparent;
 }
 
-/* ПК-версия: стрелки всегда видимы, список превью скроллится между ними */
-@media (min-width: 1024px) {
-  .card-modal__thumbnails-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between; /* стрелка ↑, список, стрелка ↓ */
-    height: 100%;
-    max-height: 100%;
-    gap: 8px;
-  }
-
-  .card-modal__thumbnails {
-    flex: 1 1 auto;           /* заполняем пространство между стрелками */
-    height: 100%;
-    max-height: 100%;
-    overflow-y: auto;         /* скроллим только карточки, стрелки фиксированы */
-  }
-}
-
 .card-modal__thumbnails::-webkit-scrollbar {
   width: 4px;
 }
@@ -1588,6 +1568,9 @@ button {
   height: 100%;
   max-height: 100%;
   gap: 8px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  box-sizing: border-box;
 }
 
 .card-modal__thumb-arrow {
@@ -1636,6 +1619,24 @@ button {
   background: #1a1d26;
   cursor: pointer;
   transition: box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+/* Управляем высотой карточек количеством видимых превью:
+   класс навешивается из JS в зависимости от высоты окна */
+.card-modal__thumbnails-wrapper.thumbs-4 .card-modal__thumb-btn {
+  height: 135px;
+}
+
+.card-modal__thumbnails-wrapper.thumbs-3 .card-modal__thumb-btn {
+  height: 110px;
+}
+
+.card-modal__thumbnails-wrapper.thumbs-2 .card-modal__thumb-btn {
+  height: 90px;
+}
+
+.card-modal__thumbnails-wrapper.thumbs-1 .card-modal__thumb-btn {
+  height: 140px; /* одна крупная карточка между стрелками на совсем низких высотах */
 }
 
 /* Адаптация высоты превью по высоте окна:
@@ -1814,7 +1815,7 @@ button {
      оставляем сверху и снизу воздух под стрелки внутри модалки */
   .card-modal__thumbnails {
     flex: 0 0 auto;
-    max-height: 150px;      /* ~1.8 карточки по высоте, в видимой зоне не больше 2,
+    max-height: 200px;      /* ~1.8 карточки по высоте, в видимой зоне не больше 2,
                                стрелки не обрезаются краем модалки */
   }
 }

@@ -449,7 +449,7 @@ let cardModalGallery = [];
 let cardModalIndex = 0;
 let cardModalTouchStartX = null;
 let cardModalThumbWindowStart = 0;
-const CARD_MODAL_VISIBLE_THUMBS = 4;
+let cardModalVisibleThumbs = 4; // количество превью, которые пытаемся показывать одновременно
 
 function renderCardModalMobileSlider(total, activeIndex) {
   if (!cardModalMobileSlider) return;
@@ -471,11 +471,11 @@ function renderCardModalThumbnails() {
   cardModalThumbnails.innerHTML = "";
   if (!cardModalGallery.length) return;
 
-  const maxStart = Math.max(0, cardModalGallery.length - CARD_MODAL_VISIBLE_THUMBS);
+  const maxStart = Math.max(0, cardModalGallery.length - cardModalVisibleThumbs);
   const safeStart = Math.min(Math.max(0, cardModalThumbWindowStart), maxStart);
   cardModalThumbWindowStart = safeStart;
 
-  const end = Math.min(cardModalGallery.length, safeStart + CARD_MODAL_VISIBLE_THUMBS);
+  const end = Math.min(cardModalGallery.length, safeStart + cardModalVisibleThumbs);
 
   for (let i = safeStart; i < end; i++) {
     const src = cardModalGallery[i];
@@ -496,7 +496,7 @@ function renderCardModalThumbnails() {
   if (cardModalThumbnailsWrapper) {
     cardModalThumbnailsWrapper.classList.toggle(
       "card-modal__thumbnails-wrapper--has-scroll",
-      cardModalGallery.length > CARD_MODAL_VISIBLE_THUMBS
+      cardModalGallery.length > cardModalVisibleThumbs
     );
   }
 }
@@ -528,9 +528,9 @@ function openCardModal(gallery, initialIndex = 0) {
 
 function scrollCardModalThumbnails(direction) {
   if (!cardModalThumbnails || !cardModalGallery.length) return;
-  if (cardModalGallery.length <= CARD_MODAL_VISIBLE_THUMBS) return;
+  if (cardModalGallery.length <= cardModalVisibleThumbs) return;
 
-  const maxStart = Math.max(0, cardModalGallery.length - CARD_MODAL_VISIBLE_THUMBS);
+  const maxStart = Math.max(0, cardModalGallery.length - cardModalVisibleThumbs);
   if (direction === "up") {
     if (cardModalThumbWindowStart === 0) return;
     cardModalThumbWindowStart -= 1;
@@ -1184,4 +1184,45 @@ if (marksCards && marksShowAllWrapper && marksShowAllLink) {
       marksShowAllLink.textContent = "Показать все";
     }
   });
+}
+
+/* ==========================
+   МОДАЛКА С ПРЕВЬЮ-КАРТОЧКАМИ
+   Адаптивное количество видимых карточек
+   ========================== */
+
+function updateCardModalThumbLayout() {
+  if (!cardModalThumbnailsWrapper) return;
+
+  const h = window.innerHeight || document.documentElement.clientHeight || 0;
+  let visibleCount = 4;
+
+  // ≥ 820px по высоте — 4 превью
+  // 820–640px — 3 превью
+  // 640–400px — 2 превью
+  // < 400px — 1 превью
+  if (h < 400) {
+    visibleCount = 1;
+  } else if (h < 640) {
+    visibleCount = 2;
+  } else if (h < 820) {
+    visibleCount = 3;
+  } else {
+    visibleCount = 4;
+  }
+
+  cardModalVisibleThumbs = visibleCount;
+
+  cardModalThumbnailsWrapper.classList.remove("thumbs-2", "thumbs-3", "thumbs-4");
+  cardModalThumbnailsWrapper.classList.add(`thumbs-${visibleCount}`);
+
+  // если модалка уже открыта, перерисуем список превью под новое количество
+  if (lightbox && lightbox.classList.contains("lightbox--open")) {
+    renderCardModalThumbnails();
+  }
+}
+
+if (cardModalThumbnailsWrapper) {
+  updateCardModalThumbLayout();
+  window.addEventListener("resize", updateCardModalThumbLayout);
 }

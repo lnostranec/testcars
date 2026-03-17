@@ -466,6 +466,7 @@ const cardModalMobileSlider = document.getElementById("cardModalMobileSlider");
 const cardModalThumbnailsWrapper = document.querySelector(".card-modal__thumbnails-wrapper");
 const cardModalThumbArrowUp = document.querySelector(".card-modal__thumb-arrow--up");
 const cardModalThumbArrowDown = document.querySelector(".card-modal__thumb-arrow--down");
+const cardModalLoader = document.getElementById("cardModalLoader");
 
 let cardModalGallery = [];
 let cardModalIndex = 0;
@@ -541,15 +542,38 @@ function setCardModalSlide(index) {
 
 function openCardModal(gallery, initialIndex = 0) {
   if (!lightbox || !cardModalMainImage || !cardModalThumbnails || !gallery.length) return;
+
   cardModalGallery = gallery.slice();
   cardModalThumbWindowStart = 0;
-  setCardModalSlide(initialIndex);
-  lightbox.setAttribute("aria-hidden", "false");
-  lightbox.classList.add("lightbox--open");
-  if (!isMobileView()) {
-    document.body.classList.add("body--modal-open");
-    document.documentElement.style.overflow = "hidden";
+
+  // Показываем лоадер поверх модалки, пока не загрузятся все изображения.
+  if (cardModalLoader) {
+    cardModalLoader.classList.add("is-visible");
   }
+
+  let remaining = cardModalGallery.length;
+  const onOneLoaded = () => {
+    remaining -= 1;
+    if (remaining <= 0) {
+      // Все изображения загружены – можно показывать модалку с контентом.
+      setCardModalSlide(initialIndex);
+      lightbox.setAttribute("aria-hidden", "false");
+      lightbox.classList.add("lightbox--open");
+      if (cardModalLoader) {
+        cardModalLoader.classList.remove("is-visible");
+      }
+      if (!isMobileView()) {
+        document.body.classList.add("body--modal-open");
+        document.documentElement.style.overflow = "hidden";
+      }
+    }
+  };
+
+  cardModalGallery.forEach((src) => {
+    const img = new Image();
+    img.onload = img.onerror = onOneLoaded;
+    img.src = src;
+  });
 }
 
 function scrollCardModalThumbnails(direction) {
@@ -608,6 +632,17 @@ markImages.forEach((imageEl) => {
   // Базовая настройка фонового изображения, даже если картинка одна.
   imageEl.style.backgroundSize = "cover";
   imageEl.style.backgroundPosition = "center";
+
+  // Для карточек с отдельной галереей дополнительно подгружаем
+  // полноразмерные картинки для модалки «по требованию» — при первом наведении.
+  let galleryPreloaded = false;
+  if (galleryFromAttr.length) {
+    imageEl.addEventListener("mouseenter", () => {
+      if (galleryPreloaded) return;
+      galleryPreloaded = true;
+      preloadMarkImages(galleryFromAttr);
+    });
+  }
 
   const SLIDER_WIDTH = 260;
   const SLIDER_PADDING = 4;
@@ -702,7 +737,11 @@ markImages.forEach((imageEl) => {
     e.preventDefault();
     const galleryAttr = imageEl.getAttribute("data-gallery");
     const galleryFromAttr = galleryAttr ? galleryAttr.split(",").map((s) => s.trim()) : [];
-    const gallery = slides.length ? [slides[0], ...galleryFromAttr] : galleryFromAttr;
+    // Для модалки:
+    // - если задан data-gallery, используем его как полный список картинок;
+    // - иначе, если есть data-slides, берём их;
+    // Так количество картинок в модалке всегда контролируется версткой.
+    const gallery = galleryFromAttr.length ? galleryFromAttr : slides;
     if (!gallery.length) return;
     openCardModal(gallery, 0);
   });
@@ -720,6 +759,9 @@ function closeCardModal() {
   if (cardModalCounter) cardModalCounter.textContent = "";
   document.body.classList.remove("body--modal-open");
   document.documentElement.style.overflow = "";
+  if (cardModalLoader) {
+    cardModalLoader.classList.remove("is-visible");
+  }
 }
 
 if (lightbox) {

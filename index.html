@@ -220,7 +220,12 @@
           </article>
 
           <article class="card card--mark" data-popularity="2" data-maker="great-wall" data-brand="haval">
-            <div class="card__image card__image--mark" data-slides="assets/mark.png">
+            <div
+              class="card__image card__image--mark card__image--mark-preview"
+              data-slides="assets/mark.png"
+              data-gallery="assets/mark.png,assets/1.png"
+              data-preview="assets/mark-thumb.webp,assets/1-thumb.webp"
+            >
               <div class="mark-slider"></div>
             </div>
             <div class="card__body">
@@ -380,6 +385,9 @@
         <div class="lightbox card-modal" id="lightbox" aria-hidden="true">
       <div class="lightbox__backdrop"></div>
       <div class="lightbox__panel card-modal__panel">
+        <div class="card-modal__loader" id="cardModalLoader" aria-hidden="true">
+          <div class="card-modal__loader-spinner"></div>
+        </div>
         <button type="button" class="card-modal__close" aria-label="Закрыть">
           <img src="assets/FrameCross.png" alt="" width="48" height="48" loading="lazy" />
         </button>

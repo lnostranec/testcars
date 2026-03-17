@@ -435,24 +435,6 @@ function preloadMarkImages(urls) {
   });
 }
 
-function setupDeferredMarkPreload(imageEl, urls) {
-  if (!("IntersectionObserver" in window)) {
-    preloadMarkImages(urls);
-    return;
-  }
-  const observer = new IntersectionObserver(
-    (entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          preloadMarkImages(urls);
-          obs.disconnect();
-        }
-      });
-    },
-    { root: null, rootMargin: "150px 0px", threshold: 0.1 }
-  );
-  observer.observe(imageEl);
-}
 const lightbox = document.getElementById("lightbox");
 const cardModalThumbnails = document.getElementById("cardModalThumbnails");
 const cardModalMainImage = document.getElementById("cardModalMainImage");
@@ -570,7 +552,9 @@ markImages.forEach((imageEl) => {
   const hoverSlides = galleryFromAttr.length ? [slides[0], ...galleryFromAttr] : slides;
   const zones = hoverSlides.length;
 
-  setupDeferredMarkPreload(imageEl, hoverSlides);
+  // Прелоадим все изображения для конкретной карточки сразу при загрузке страницы,
+  // чтобы при первом наведении/переключении не было задержек.
+  preloadMarkImages(hoverSlides);
 
   imageEl.classList.toggle("card__image--has-gallery", zones > 1);
 

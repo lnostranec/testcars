@@ -421,6 +421,19 @@ document.addEventListener("keydown", (e) => {
 });
 
 const markImages = document.querySelectorAll(".card__image--mark");
+
+// Простое кэширование изображений для блока "Работаем с маркировками",
+// чтобы картинки в ползунке подгружались заранее и переключались без задержек.
+const markImageCache = new Map();
+
+function preloadMarkImages(urls) {
+  urls.forEach((url) => {
+    if (!url || markImageCache.has(url)) return;
+    const img = new Image();
+    img.src = url;
+    markImageCache.set(url, img);
+  });
+}
 const lightbox = document.getElementById("lightbox");
 const cardModalThumbnails = document.getElementById("cardModalThumbnails");
 const cardModalMainImage = document.getElementById("cardModalMainImage");
@@ -537,7 +550,22 @@ markImages.forEach((imageEl) => {
   const galleryFromAttr = galleryAttr ? galleryAttr.split(",").map((s) => s.trim()) : [];
   const hoverSlides = galleryFromAttr.length ? [slides[0], ...galleryFromAttr] : slides;
   const zones = hoverSlides.length;
+
+  // Прелоадим все изображения для конкретной карточки,
+  // чтобы при наведении не было задержек.
+  preloadMarkImages(hoverSlides);
+
   imageEl.classList.toggle("card__image--has-gallery", zones > 1);
+
+  // Базовая настройка фонового изображения, даже если картинка одна.
+  imageEl.style.backgroundSize = "cover";
+  imageEl.style.backgroundPosition = "center";
+
+  // Если слайд всего один — просто показываем его и не строим ползунок.
+  if (zones <= 1) {
+    imageEl.style.backgroundImage = `url("${hoverSlides[0]}")`;
+    return;
+  }
 
   const SLIDER_WIDTH = 260;
   const SLIDER_PADDING = 4;

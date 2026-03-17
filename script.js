@@ -546,7 +546,13 @@ function openCardModal(gallery, initialIndex = 0) {
   cardModalGallery = gallery.slice();
   cardModalThumbWindowStart = 0;
 
-  // Показываем лоадер поверх модалки, пока не загрузятся все изображения.
+  // Сразу открываем модалку и включаем лоадер поверх контента.
+  lightbox.setAttribute("aria-hidden", "false");
+  lightbox.classList.add("lightbox--open");
+  if (!isMobileView()) {
+    document.body.classList.add("body--modal-open");
+    document.documentElement.style.overflow = "hidden";
+  }
   if (cardModalLoader) {
     cardModalLoader.classList.add("is-visible");
   }
@@ -555,16 +561,10 @@ function openCardModal(gallery, initialIndex = 0) {
   const onOneLoaded = () => {
     remaining -= 1;
     if (remaining <= 0) {
-      // Все изображения загружены – можно показывать модалку с контентом.
+      // Все изображения загружены – прячем лоадер и рендерим содержимое.
       setCardModalSlide(initialIndex);
-      lightbox.setAttribute("aria-hidden", "false");
-      lightbox.classList.add("lightbox--open");
       if (cardModalLoader) {
         cardModalLoader.classList.remove("is-visible");
-      }
-      if (!isMobileView()) {
-        document.body.classList.add("body--modal-open");
-        document.documentElement.style.overflow = "hidden";
       }
     }
   };
